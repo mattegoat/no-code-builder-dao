@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-height: 100px;
+  --pa-pink: #FF89DE;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  height: var(--header-height);
+}
+
+main {
+  min-height: calc(100vh - var(--header-height));
+}
+
+.text-underline {
+  position: relative;
+}
+
+.text-underline:after {
+  content: '';
+  width: 100%;
+  border-bottom: 1px solid #000;
+  display: block;
+  position: absolute;
+  bottom: 4px;
+}
+
+.text-underline:hover:after {
+  border-color: var(--pa-pink);
+}
+
+.pa--hero {
+  padding-bottom: var(--header-height);
+}
+
+/* Style Drops UI */
+.drops-ui__mint-button--button,
+.connect__button {
+  @apply w-auto text-underline
+}
+
+@keyframes pulse {
+  from {
+    opacity: .5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mint-prompt {
+  position: relative;
+}
+
+.mint-prompt:before {
+  content: '● ';
+  color: #32CD32;
+  animation: pulse infinite 1000ms alternate;
+}
