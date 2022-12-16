@@ -29,7 +29,57 @@ export default function TokenRenderer({
           Winner <span className=" text-secondary">austingriffith.eth</span>
         </span>
         <div className="flex flex-row gap-4 pt-5">
-          <button className="btn  btn-primary">Bid History</button>
+          <label htmlFor="my-modal-4" className="btn  btn-primary">
+            Bid History
+          </label>
+          <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+          <label htmlFor="my-modal-4" className="modal cursor-pointer">
+            <label className="modal-box relative" htmlFor="">
+              <h3 className="text-lg font-bold">
+                Bids for {<TokenTitle daoAddress={daoAddress} tokenId={tokenId} />}
+              </h3>
+              <p className="py-4">
+                <table className="table w-full">
+                  <tbody>
+                    <tr>
+                      <td className="flex">
+                        <div className="avatar my-auto">
+                          <div className="w-10 rounded-full">
+                            <img src="https://placeimg.com/192/192/people" />
+                          </div>
+                        </div>
+                        <div className="my-auto pl-4 font-semibold">test</div>
+                      </td>
+                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
+                    </tr>
+                    <tr>
+                      <td className="flex">
+                        <div className="avatar my-auto">
+                          <div className="w-10 rounded-full">
+                            <img src="https://placeimg.com/192/192/people" />
+                          </div>
+                        </div>
+                        <div className="my-auto pl-4 font-semibold">test</div>
+                      </td>
+                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
+                    </tr>
+                    <tr>
+                      <td className="flex">
+                        <div className="avatar my-auto">
+                          <div className="w-10 rounded-full">
+                            <img src="https://placeimg.com/192/192/people" />
+                          </div>
+                        </div>
+                        <div className="my-auto pl-4 font-semibold">test</div>
+                      </td>
+                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p>
+            </label>
+          </label>
+
           <button className="btn btn-outline btn-secondary">Etherscan</button>
         </div>
       </div>

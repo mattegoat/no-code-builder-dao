@@ -4,10 +4,6 @@ import TokenThumbnail from './TokenThumbnail'
 import TokenTitle from './TokenTitle'
 import { AuthCheck } from '../../components/elements'
 import { useActiveAuction } from '../hooks/useActiveAuction'
-import TokenPagination from './TokenExplorer'
-import Image from 'next/image'
-import hammer from '../../public/hammer.png'
-import Link from 'next/link'
 
 /**
  * TODO:
@@ -116,9 +112,9 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
               </tbody>
             </table>
           </div>
-          <span>Bidder: {auctionData?.highestBidder}</span>
+          {/* <span>Bidder: {auctionData?.highestBidder}</span> */}
         </div>
-        <AuthCheck
+        {/* <AuthCheck
           connectCopy={'Connect to bid'}
           formUI={
             <div>
@@ -153,7 +149,7 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
               </form>
             </div>
           }
-        />
+        /> */}
       </div>
     </div>
   )
