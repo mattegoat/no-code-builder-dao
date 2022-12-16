@@ -81,7 +81,7 @@ export default function TokenWinningBid({
   }, [BuilderAuction, tokenId, tokenData])
 
   return (
-    <a rel="noreferrer" className="flex flex-col leading-5">
+    <span className="flex flex-col leading-5">
       <div className="flex flex-col gap-1">
         <span className="text-md	font-semibold text-secondary">Winning bid</span>
         <a
@@ -92,6 +92,6 @@ export default function TokenWinningBid({
           <span className="text-md md:text-xl lg:text-2xl	font-bold">{winningBid}</span>
         </a>
       </div>
-    </a>
+    </span>
   )
 }

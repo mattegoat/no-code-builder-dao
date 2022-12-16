@@ -1,8 +1,17 @@
-import React from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useMemo } from 'react'
 import TokenThumbnail from './TokenThumbnail'
 import TokenTitle from './TokenTitle'
 import TokenHolder from './TokenHolder'
 import TokenWinningBid from './TokenWinningBid'
+import { useAuctionBids } from '@dao-auction/hooks/useAuctionBids'
+import {
+  NounsBuilderAuctionAuctionBidEventProperties,
+  NounsEvent,
+} from '@dao-auction/types/zora.api.generated'
+import { etherscanLink, shortenAddress } from '@dao-auction/lib'
+import { useEnsAvatar, useEnsName } from 'wagmi'
+import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
 
 export default function TokenRenderer({
   tokenId,
@@ -12,6 +21,8 @@ export default function TokenRenderer({
   daoAddress: string
   tokenId: string
 }) {
+  const { bids } = useAuctionBids({ collectionAddress: daoAddress, tokenId })
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1440px]" {...props}>
       <TokenThumbnail tokenId={tokenId} daoAddress={daoAddress} />
@@ -38,45 +49,66 @@ export default function TokenRenderer({
               <h3 className="text-lg font-bold">
                 Bids for {<TokenTitle daoAddress={daoAddress} tokenId={tokenId} />}
               </h3>
-              <p className="py-4">
+              <div className="py-4">
                 <table className="table w-full">
                   <tbody>
-                    <tr>
-                      <td className="flex">
-                        <div className="avatar my-auto">
-                          <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/192/192/people" />
+                    {bids?.map((bid: NounsEvent, index) => (
+                      <tr key={index}>
+                        <td className="flex">
+                          <div className="avatar my-auto">
+                            <div className="w-10 rounded-full">
+                              <img
+                                src={
+                                  useEnsAvatar({
+                                    addressOrName: (
+                                      bid.properties
+                                        .properties as NounsBuilderAuctionAuctionBidEventProperties
+                                    ).bidder,
+                                  }).data || `https://avatar.tobi.sh/${index}`
+                                }
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="my-auto pl-4 font-semibold">test</div>
-                      </td>
-                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
-                    </tr>
-                    <tr>
-                      <td className="flex">
-                        <div className="avatar my-auto">
-                          <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/192/192/people" />
+                          <div className="my-auto pl-4 font-semibold">
+                            {useEnsName({
+                              address: (
+                                bid.properties
+                                  .properties as NounsBuilderAuctionAuctionBidEventProperties
+                              ).bidder,
+                            }).data ||
+                              shortenAddress(
+                                (
+                                  bid.properties
+                                    .properties as NounsBuilderAuctionAuctionBidEventProperties
+                                ).bidder
+                              )}
                           </div>
-                        </div>
-                        <div className="my-auto pl-4 font-semibold">test</div>
-                      </td>
-                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
-                    </tr>
-                    <tr>
-                      <td className="flex">
-                        <div className="avatar my-auto">
-                          <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/192/192/people" />
-                          </div>
-                        </div>
-                        <div className="my-auto pl-4 font-semibold">test</div>
-                      </td>
-                      <td className="my-auto pl-4 font-bold text-secondary">Ξ</td>
-                    </tr>
+                        </td>
+                        <td className="my-auto pl-4 font-bold text-secondary">
+                          {
+                            (
+                              bid.properties
+                                .properties as NounsBuilderAuctionAuctionBidEventProperties
+                            ).amountPrice.chainTokenPrice?.decimal
+                          }{' '}
+                          Ξ
+                        </td>
+                        <td className="my-auto pl-4 font-bold text-secondary">
+                          <a
+                            href={etherscanLink({
+                              linkType: 'tx',
+                              hash: bid.transactionInfo.transactionHash || '',
+                            })}
+                            target="_blank"
+                            rel="noreferrer">
+                            <ArrowUpRightIcon className="text-primary" />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-              </p>
+              </div>
             </label>
           </label>
 

@@ -1,15 +1,8 @@
-import CurrentAuction from "./components/CurrentAuction";
+import CurrentAuction from './components/CurrentAuction'
 import TokenExplorer from './components/TokenExplorer'
-import {
-  useCountdown,
-  useDaoAuctionQuery,
-  useDaoToken,
-} from './hooks'
+import { useCountdown, useDaoAuctionQuery, useDaoToken } from './hooks'
 
-import { 
-  shortenAddress,
-  zoraApiFetcher,
-} from './lib'
+import { shortenAddress, zoraApiFetcher } from './lib'
 
 export {
   CurrentAuction,
