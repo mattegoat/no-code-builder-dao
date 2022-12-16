@@ -5,13 +5,19 @@ import { useState } from 'react'
 import Image from 'next/image'
 import logo from '../public/favicon.png'
 import { pages } from '../config.js'
+import { useTreasuryBalance } from '@dao-auction/hooks/useTreasuryBalance'
+import { useAllAddresses } from '@dao-auction/hooks/useAllAddresses'
+import { ethers } from 'ethers'
 
 const DisconnectButton = dynamic(() => import('./elements/DisconnectButton'), {
   ssr: false,
 })
 
-export function Header() {
+export function Header({ daoAddress }: { daoAddress: string }) {
   const [isOpen, setIsOpen] = useState(false)
+
+  const treasuryBalance = useTreasuryBalance(daoAddress)
+  const { treasuryAddress } = useAllAddresses({ collectionAddress: daoAddress })
 
   return (
     <div className=" ">
@@ -20,7 +26,7 @@ export function Header() {
           className="flex items-center flex-shrink-0 text-white mr-6"
           style={{ cursor: 'pointer' }}>
           <Link href="/">
-            <Image src={logo} />
+            <Image src={logo} alt="logo" />
           </Link>
         </div>
         <div className="block lg:hidden">
@@ -42,14 +48,24 @@ export function Header() {
             isOpen ? 'block' : 'hidden'
           } w-full block flex-grow lg:flex lg:items-center lg:w-auto`}>
           <div className="lg:flex-grow pb-4 lg:pb-0">
-            {pages.map((page) => (
-              <a href="#" className="block mt-5 lg:inline-block lg:mt-0  mr-4">
+            {pages.map((page, index) => (
+              <a
+                href="#"
+                className="block mt-5 lg:inline-block lg:mt-0  mr-4"
+                key={index}>
                 <button className="btn btn-ghost">{page.title}</button>
               </a>
             ))}
           </div>
           <div className="grid gap-3 grid-cols-2	">
-            <button className="btn btn-outline btn-secondary">Treasury Ξ 100 ETH</button>
+            <a
+              href={`https://etherscan.io/tokenholdings?a=${treasuryAddress}`}
+              target="_blank"
+              rel="noreferrer">
+              <button className="btn btn-outline btn-secondary">
+                Treasury Ξ {ethers.utils.formatEther(treasuryBalance)}
+              </button>
+            </a>
             <button className="btn btn-primary">Connect</button>
           </div>
         </div>
