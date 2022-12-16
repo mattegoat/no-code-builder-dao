@@ -39,7 +39,8 @@ const DAO: NextPage = () => {
           proposalTitle="Write the EIP-1253 in Cairo"
           timeline="12 December 2022"
           status="Pending"
-          proposalAuthor="AustinGriffith.eth"></ProposalSmall>
+          proposalAuthor="AustinGriffith.eth"
+          threshold={70}></ProposalSmall>
       </div>
     </div>
   )

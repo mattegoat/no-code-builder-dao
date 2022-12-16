@@ -4,12 +4,14 @@ export function ProposalSmall({
   timeline,
   status,
   proposalAuthor,
+  threshold,
 }: {
   proposalIndex: number
   proposalTitle: string
   timeline: string
   status: string
   proposalAuthor: string
+  threshold: number
 }) {
   return (
     <div className="w-full rounded-md mt-4 bg-neutral">
@@ -120,7 +122,9 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 bg-base-100 flex flex-col w-full h-full justify-between">
             <h1 className="font-bold text-lg pb-3 text-neutral invert ">Threshold</h1>
-            <h1 className="font-bold text-lg pb-3 text-accent invert ">12 votes</h1>
+            <h1 className="font-bold text-lg pb-3 text-accent invert ">
+              {threshold} votes
+            </h1>
           </div>
           <progress
             className="progress progress-neutral-content w-full mt-3"
