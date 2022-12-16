@@ -45,6 +45,8 @@ export const CHAIN_ID: SupportedChains = parseInt(process.env.NEXT_PUBLIC_CHAIN_
 
 export const ETHERSCAN_API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY ?? ''
 
+export const DAO_ADDRESS = process.env.NEXT_PUBLIC_DAO_ADDRESS ?? ''
+
 const INFURA_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID
 
 export const createNetworkHttpUrl = (network: string): string => {

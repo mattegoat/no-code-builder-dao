@@ -5,10 +5,16 @@ export const DAO_ADDRESSES_QUERY = gql`
     nouns {
       nounsDaos(where: { collectionAddresses: $daoAddress }) {
         nodes {
-          treasuryAddress
-          metadataAddress
-          governorAddress
+          name
+          collectionAddress
           auctionAddress
+          governorAddress
+          metadataAddress
+          description
+          symbol
+          totalSupply
+          treasuryAddress
+          contractAddress
         }
       }
     }
