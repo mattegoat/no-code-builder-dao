@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { ProposalSmall } from '../components/ProposalSmall'
 
 const DAO: NextPage = () => {
   return (
@@ -24,7 +25,14 @@ const DAO: NextPage = () => {
           <button className="btn">Write Proposal</button>
         </div>
       </div>
-      <div></div>
+      <div>
+        <ProposalSmall
+          proposalIndex={1}
+          proposalTitle="Write the EIP-1253 in Cairo"
+          timeline="12 December 2022"
+          status="Pending"
+          proposalAuthor="AustinGriffith.eth"></ProposalSmall>
+      </div>
     </div>
   )
 }
