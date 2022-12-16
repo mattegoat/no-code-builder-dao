@@ -50,7 +50,7 @@ export function Header({ daoAddress }: { daoAddress: string }) {
           <div className="lg:flex-grow pb-4 lg:pb-0">
             {pages.map((page, index) => (
               <a
-                href="#"
+                href={page.slug}
                 className="block mt-5 lg:inline-block lg:mt-0  mr-4"
                 key={index}>
                 <button className="btn btn-ghost">{page.title}</button>
