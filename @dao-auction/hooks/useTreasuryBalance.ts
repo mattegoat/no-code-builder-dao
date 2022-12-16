@@ -3,14 +3,17 @@ import { useCoingeckoPrice } from '@usedapp/coingecko'
 import { BigNumber, ethers } from 'ethers'
 import { useAllAddresses } from './useAllAddresses'
 import { useBalance } from 'wagmi'
+import { useDao } from 'context/DaoProvider'
 
 /**
  * Computes treasury balance (ETH + Lido)
  *
  * @returns Total balance of treasury (ETH + Lido) as EthersBN
  */
-export const useTreasuryBalance = (daoAddress: string) => {
-  const { treasuryAddress } = useAllAddresses({ collectionAddress: daoAddress })
+export const useTreasuryBalance = () => {
+  const { daoInfo } = useDao()
+
+  const treasuryAddress = daoInfo.treasuryAddress || ''
 
   const { data } = useBalance({ addressOrName: treasuryAddress })
   const lidoBalanceAsETH = useLidoBalance(treasuryAddress)
@@ -23,10 +26,10 @@ export const useTreasuryBalance = (daoAddress: string) => {
  *
  * @returns USD value of treasury assets (ETH + Lido) at current exchange rate
  */
-export const useTreasuryUSDValue = (daoAddress: string) => {
+export const useTreasuryUSDValue = () => {
   const etherPrice = Number(useCoingeckoPrice('ethereum', 'usd'))
   const treasuryBalanceETH = Number(
-    ethers.utils.formatEther(useTreasuryBalance(daoAddress)?.toString() || '0')
+    ethers.utils.formatEther(useTreasuryBalance()?.toString() || '0')
   )
   return etherPrice * treasuryBalanceETH
 }

@@ -5,14 +5,15 @@ import { publicProvider } from 'wagmi/providers/public'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { SWRConfig } from 'swr'
-import '@rainbow-me/rainbowkit/styles.css';
+import '@rainbow-me/rainbowkit/styles.css'
+import DaoProvider from 'context/DaoProvider/provider'
 
 const { chains, provider } = configureChains(
   [chain.mainnet],
   [
     infuraProvider({
       priority: 0,
-      apiKey: process.env.NEXT_PUBLIC_INFURA_KEY
+      apiKey: process.env.NEXT_PUBLIC_INFURA_KEY,
     }),
     jsonRpcProvider({
       priority: 1,
@@ -58,7 +59,7 @@ export function AppWrapper({ children }: { children: JSX.Element | JSX.Element[]
             showOnShallow={true}
             options={{ showSpinner: false }}
           />
-          {children}
+          <DaoProvider>{children}</DaoProvider>
         </SWRConfig>
       </RainbowKitProvider>
     </WagmiConfig>
