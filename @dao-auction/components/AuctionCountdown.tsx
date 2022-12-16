@@ -8,7 +8,7 @@ export default function AuctionCountdown({ endTime }: { endTime: number }) {
     <div className="flex flex-col gap-1">
       {!isEnded ? (
         <>
-          <span className="text-md	font-semibold	">Auction ends in</span>
+          <span className="text-md	font-semibold	text-secondary">Auction ends in</span>
           <span className="text-4xl	font-bold	">{countdownString}</span>
         </>
       ) : (

@@ -7,6 +7,7 @@ import { useActiveAuction } from '../hooks/useActiveAuction'
 import TokenPagination from './TokenExplorer'
 import Image from 'next/image'
 import hammer from '../../public/hammer.png'
+import Link from 'next/link'
 
 /**
  * TODO:
@@ -44,10 +45,10 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-10">
             <div className="flex flex-col gap-1">
-              <span className="text-md	font-semibold	">Current Bid:</span>
-              <span className="text-4xl	font-bold	">Ξ {auctionData?.highestBidPrice}</span>
+              <span className="text-md	font-semibold text-secondary">Current Bid</span>
+              <span className="text-4xl	font-bold">Ξ {auctionData?.highestBidPrice}</span>
             </div>
-            <div className="divider divider-horizontal"></div>
+            <div className="divider divider-horizontal  color-primary"></div>
             {auctionData?.endTime && (
               <AuctionCountdown endTime={Number(auctionData.endTime)} />
             )}
@@ -60,7 +61,7 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                   placeholder="Bid in Ξ"
                   className="input input-bordered font-bold"
                 />
-                <button className="btn btn-square px-2">Bid</button>
+                <button className="btn btn-square px-2 bg-primary">Bid</button>
               </div>
             </div>
           </span>
@@ -78,7 +79,9 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                       {auctionData?.highestBidder}
                     </div>
                   </td>
-                  <td>Quality Control Specialist</td>
+                  <td className="my-auto pl-4 font-bold text-secondary">
+                    Ξ {auctionData?.highestBidPrice}
+                  </td>
                 </tr>
                 <tr>
                   <td className="flex">
@@ -91,7 +94,9 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                       {auctionData?.highestBidder}
                     </div>
                   </td>
-                  <td>Quality Control Specialist</td>
+                  <td className="my-auto pl-4 font-bold text-secondary">
+                    Ξ {auctionData?.highestBidPrice}
+                  </td>
                 </tr>
                 <tr>
                   <td className="flex">
@@ -104,7 +109,9 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                       {auctionData?.highestBidder}
                     </div>
                   </td>
-                  <td>Quality Control Specialist</td>
+                  <td className="my-auto pl-4 font-bold text-secondary">
+                    Ξ {auctionData?.highestBidPrice}
+                  </td>
                 </tr>
               </tbody>
             </table>
