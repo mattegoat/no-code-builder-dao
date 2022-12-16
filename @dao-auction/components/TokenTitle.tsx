@@ -24,7 +24,9 @@ export default function TokenTitle({
       href={`${externalLinkBaseURI}/${daoAddress}/${tokenId}`}
       target="_blank"
       rel="noreferrer">
-      <h1 className="text-4xl	font-bold	">{tokenData?.metadata?.name}</h1>
+      <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl	font-bold">
+        {tokenData?.metadata?.name}
+      </h1>
     </a>
   )
 }

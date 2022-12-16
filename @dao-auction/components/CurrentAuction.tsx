@@ -34,7 +34,7 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
       {auctionData?.tokenId && (
         <TokenThumbnail tokenId={auctionData.tokenId} daoAddress={daoAddress} />
       )}
-      <div className="flex flex-col  gap-6">
+      <div className="flex flex-col gap-6 items-center lg:items-start">
         {totalSupply && (
           <TokenTitle daoAddress={daoAddress} tokenId={(totalSupply - 1).toString()} />
         )}
@@ -42,7 +42,9 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
           <div className="flex flex-row gap-10">
             <div className="flex flex-col gap-1">
               <span className="text-md	font-semibold text-secondary">Current Bid</span>
-              <span className="text-4xl	font-bold">Ξ {auctionData?.highestBidPrice}</span>
+              <span className="text-lg md:text-xl lg:text-3xl xl:text-4xl	font-bold">
+                Ξ {auctionData?.highestBidPrice}
+              </span>
             </div>
             <div className="divider divider-horizontal  color-primary"></div>
             {auctionData?.endTime && (
@@ -55,7 +57,7 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                 <input
                   type="text"
                   placeholder="Bid in Ξ"
-                  className="input input-bordered font-bold"
+                  className="input input-bordered font-bold w-full lg:w-7/12"
                 />
                 <button className="btn btn-square px-2 bg-primary">Bid</button>
               </div>

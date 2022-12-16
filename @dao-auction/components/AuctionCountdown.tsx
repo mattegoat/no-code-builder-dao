@@ -9,7 +9,9 @@ export default function AuctionCountdown({ endTime }: { endTime: number }) {
       {!isEnded ? (
         <>
           <span className="text-md	font-semibold	text-secondary">Auction ends in</span>
-          <span className="text-4xl	font-bold	">{countdownString}</span>
+          <span className="text-lg md:text-xl lg:text-3xl xl:text-4xl	font-bold">
+            {countdownString}
+          </span>
         </>
       ) : (
         <span className="text-md	font-semibold	">Auction is complete</span>
