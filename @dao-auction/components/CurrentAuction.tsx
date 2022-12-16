@@ -4,6 +4,7 @@ import TokenThumbnail from './TokenThumbnail'
 import TokenTitle from './TokenTitle'
 import { AuthCheck } from '../../components/elements'
 import { useActiveAuction } from '../hooks/useActiveAuction'
+import { useAuth } from 'hooks/useAuth'
 
 /**
  * TODO:
@@ -19,6 +20,8 @@ export interface CurrentAuctionProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionProps) {
+  const { isConnected } = useAuth()
+
   const {
     auctionData,
     createBid,
@@ -56,10 +59,17 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
               <div className="input-group">
                 <input
                   type="text"
-                  placeholder="Bid in Ξ"
+                  pattern="[0-9.]*"
+                  placeholder={`${auctionData?.minBidAmount.toFixed(2)} Ξ or more`}
+                  onChange={(event: any) => updateBidAmount(event.target.value)}
                   className="input input-bordered font-bold w-full lg:w-7/12"
                 />
-                <button className="btn btn-square px-2 bg-primary">Bid</button>
+                <button
+                  className="btn btn-square px-2 bg-primary"
+                  onClick={createBid}
+                  disabled={!isConnected}>
+                  Bid
+                </button>
               </div>
             </div>
           </span>
