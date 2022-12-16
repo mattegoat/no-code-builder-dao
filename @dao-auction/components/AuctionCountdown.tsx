@@ -1,20 +1,19 @@
 import React from 'react'
 import { useCountdown } from '@dao-auction/hooks/useCountdown'
 
-export default function AuctionCountdown({endTime}: {
-  endTime: number,
-}) {
+export default function AuctionCountdown({ endTime }: { endTime: number }) {
   const { countdownString, isEnded } = useCountdown(endTime)
 
   return (
-    <div className="flex flex-col">
-      {!isEnded
-        ? <>
-            <span>Auction ends in:</span>
-            <span>{countdownString}</span>
-          </>
-        : <span>Auction is complete</span>
-      }
+    <div className="flex flex-col gap-1">
+      {!isEnded ? (
+        <>
+          <span className="text-md	font-semibold	">Auction ends in</span>
+          <span className="text-4xl	font-bold	">{countdownString}</span>
+        </>
+      ) : (
+        <span className="text-md	font-semibold	">Auction is complete</span>
+      )}
     </div>
   )
 }

@@ -14,24 +14,12 @@ export default function TokenRenderer({
 }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-[1440px]" {...props}>
-      <TokenThumbnail
-        tokenId={tokenId}
-        daoAddress={daoAddress}
-      />
+      <TokenThumbnail tokenId={tokenId} daoAddress={daoAddress} />
       <div className="flex flex-col justify-end gap-4">
-        <TokenTitle
-          daoAddress={daoAddress}
-          tokenId={tokenId}
-        />
+        <TokenTitle daoAddress={daoAddress} tokenId={tokenId} />
         <div className="flex flex-row gap-10">
-          <TokenHolder
-            daoAddress={daoAddress}
-            tokenId={tokenId}
-          />
-          <TokenWinningBid
-            daoAddress={daoAddress}
-            tokenId={tokenId}
-          />
+          <TokenHolder daoAddress={daoAddress} tokenId={tokenId} />
+          <TokenWinningBid daoAddress={daoAddress} tokenId={tokenId} />
         </div>
       </div>
     </div>

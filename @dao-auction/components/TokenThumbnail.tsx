@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDaoToken } from "@dao-auction/hooks/useDaoToken"
+import { useDaoToken } from '@dao-auction/hooks/useDaoToken'
 
 export default function TokenThumbnail({
   tokenId,
@@ -9,7 +9,7 @@ export default function TokenThumbnail({
   tokenId: string
 }) {
   const [thumbnail, setThumbnail] = React.useState<undefined | string>()
-  
+
   const { tokenData } = useDaoToken({
     daoAddress: daoAddress,
     tokenId: tokenId,
@@ -23,8 +23,8 @@ export default function TokenThumbnail({
   }, [tokenData])
 
   return (
-    <div className="aspect-square relative w-full bg-slate-50">
-      {thumbnail && <img src={thumbnail} className="w-full h-full inset-0"/>}
+    <div className="aspect-square relative w-11/12 m-auto bg-slate-50 rounded-2xl">
+      {thumbnail && <img src={thumbnail} className="w-full h-full inset-0 rounded-2xl" />}
     </div>
   )
 }
