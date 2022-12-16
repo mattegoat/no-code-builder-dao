@@ -8,6 +8,7 @@ import { pages } from '../config.js'
 import { useTreasuryBalance } from '@dao-auction/hooks/useTreasuryBalance'
 import { useAllAddresses } from '@dao-auction/hooks/useAllAddresses'
 import { ethers } from 'ethers'
+import { Connect } from './elements'
 
 const DisconnectButton = dynamic(() => import('./elements/DisconnectButton'), {
   ssr: false,
@@ -66,7 +67,7 @@ export function Header({ daoAddress }: { daoAddress: string }) {
                 Treasury Ξ {ethers.utils.formatEther(treasuryBalance)}
               </button>
             </a>
-            <button className="btn btn-primary">Connect</button>
+            <Connect />
           </div>
         </div>
       </nav>
