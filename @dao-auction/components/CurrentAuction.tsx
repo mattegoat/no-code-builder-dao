@@ -42,29 +42,73 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
           <TokenTitle daoAddress={daoAddress} tokenId={(totalSupply - 1).toString()} />
         )}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-20">
+          <div className="flex flex-row gap-10">
             <div className="flex flex-col gap-1">
               <span className="text-md	font-semibold	">Current Bid:</span>
               <span className="text-4xl	font-bold	">Ξ {auctionData?.highestBidPrice}</span>
             </div>
+            <div className="divider divider-horizontal"></div>
             {auctionData?.endTime && (
               <AuctionCountdown endTime={Number(auctionData.endTime)} />
             )}
           </div>
           <span>
-            <div className="form-control">
+            <div className="form-contro pt-4">
               <div className="input-group">
                 <input
                   type="text"
-                  placeholder="Bid"
+                  placeholder="Bid in Ξ"
                   className="input input-bordered font-bold"
                 />
-                <button className="btn btn-square px-2">
-                  <Image src={hammer} style={{ filter: 'invert(0.8)' }} />
-                </button>
+                <button className="btn btn-square px-2">Bid</button>
               </div>
             </div>
           </span>
+          <div className="overflow-x-auto">
+            <table className="table w-full">
+              <tbody>
+                <tr>
+                  <td className="flex">
+                    <div className="avatar my-auto">
+                      <div className="w-10 rounded-full">
+                        <img src="https://placeimg.com/192/192/people" />
+                      </div>
+                    </div>
+                    <div className="my-auto pl-4 font-semibold">
+                      {auctionData?.highestBidder}
+                    </div>
+                  </td>
+                  <td>Quality Control Specialist</td>
+                </tr>
+                <tr>
+                  <td className="flex">
+                    <div className="avatar my-auto">
+                      <div className="w-10 rounded-full">
+                        <img src="https://placeimg.com/192/192/people" />
+                      </div>
+                    </div>
+                    <div className="my-auto pl-4 font-semibold">
+                      {auctionData?.highestBidder}
+                    </div>
+                  </td>
+                  <td>Quality Control Specialist</td>
+                </tr>
+                <tr>
+                  <td className="flex">
+                    <div className="avatar my-auto">
+                      <div className="w-10 rounded-full">
+                        <img src="https://placeimg.com/192/192/people" />
+                      </div>
+                    </div>
+                    <div className="my-auto pl-4 font-semibold">
+                      {auctionData?.highestBidder}
+                    </div>
+                  </td>
+                  <td>Quality Control Specialist</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <span>Bidder: {auctionData?.highestBidder}</span>
         </div>
         <AuthCheck
