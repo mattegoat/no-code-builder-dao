@@ -60,7 +60,7 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
                 <input
                   type="text"
                   pattern="[0-9.]*"
-                  placeholder={`${auctionData?.minBidAmount.toFixed(2)} Ξ or more`}
+                  placeholder={`${auctionData?.minBidAmount?.toFixed(2)} Ξ or more`}
                   onChange={(event: any) => updateBidAmount(event.target.value)}
                   className="input input-bordered font-bold w-full lg:w-7/12"
                 />
