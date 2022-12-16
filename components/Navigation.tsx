@@ -3,9 +3,12 @@ import { useRouter } from 'next/router'
 import testlogo from '../public/social-card.png'
 import Image from 'next/image'
 import { pages } from '../config.js'
+import { useTreasuryBalance } from '@dao-auction/hooks/useTreasuryBalance'
 
-export function Navigation() {
+export function Navigation({ daoAddress }: { daoAddress: string }) {
   const router = useRouter()
+
+  const treasuryBalance = useTreasuryBalance(daoAddress)
 
   return (
     <nav className="flex flex-row items-center gap-8">
@@ -16,10 +19,11 @@ export function Navigation() {
             width="60px"
             height={'60px'}
             style={{ cursor: 'pointer' }}
+            alt="logo"
           />
         </Link>
         <button className="h-10 m-auto px-4 bg-transparent font-semibold border rounded-lg hover:opacity-60  active:translate-y-0">
-          Treasury Ξ 100 ETH
+          Treasury Ξ {treasuryBalance.toString()}
         </button>
         {pages.map((page) => (
           <Link passHref href={page.slug} key={page.slug}>
