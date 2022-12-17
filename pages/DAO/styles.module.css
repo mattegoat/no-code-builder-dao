@@ -1,0 +1,97 @@
+.section {
+    word-wrap: break-word;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    font-family: inherit;
+  }
+  
+  .section h5 {
+    font-size: 1.7rem;
+    margin-top: 1rem;
+    font-family: 'Londrina Solid';
+    font-family: inherit;
+
+  }
+  
+  .markdown {
+    font-family: 'PT Root UI';
+    font-size: 1.1rem;
+    line-height: 2 rem;
+    font-family: inherit;
+
+  }
+  
+  .markdown h1 {
+    font-size: 1.7rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-family: inherit;
+    color: hsl(var(--p));
+
+  }
+  
+  .markdown h2 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-family: inherit;
+    color: hsl(var(--s))
+  }
+  
+  .markdown h3 {
+    font-weight: bold;
+    font-size: 1.3rem;
+    font-family: inherit;
+color: hsl(var(--p));
+  }
+
+  .markdown a {
+    color: hsl(var(--a))!important;
+  }
+  
+  .markdown img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .txnInfoText {
+    color: var(--brand-gray-light-text);
+    margin-left: -0.1rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+
+  }
+  
+  @media (max-width: 992px) {
+    .txnInfoText {
+      align-items: flex-start;
+      margin-top: 1rem;
+    }
+  
+    .txnInfoIcon {
+      margin-top: 0.25rem;
+      margin-right: 0.5rem;
+    }
+  }
+  
+  .txnInfoIcon {
+    height: 18px;
+    width: 18px;
+    opacity: 0.5;
+  }
+  
+  .txnInfoIconWrapper {
+    width: 25px;
+    display: flex;
+    align-items: center;
+  }
+  
+  

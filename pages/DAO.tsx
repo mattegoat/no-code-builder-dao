@@ -9,6 +9,7 @@ import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
 import { ProposalSmall } from '../components/ProposalSmall'
+import ReactMarkdown from 'react-markdown'
 
 const DAO: NextPage = () => {
   const { daoInfo } = useDao()
