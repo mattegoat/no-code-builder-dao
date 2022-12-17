@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { getProposalStatus } from '@dao-auction/lib/proposal'
 import { ProposalState } from '@dao-auction/types/proposal'
 
@@ -16,6 +17,11 @@ export function ProposalSmall({
   proposalAuthor: string
   threshold: number
 }) {
+  const router = useRouter()
+
+  const handleClick = () => {
+    router.push(`/vote/${proposalIndex - 1}`)
+  }
   return (
     <div className="w-full rounded-md mt-4 bg-neutral">
       <div className="p-5 flex flex-row rounded-md bg-neutral-focus justify-between">
@@ -26,6 +32,7 @@ export function ProposalSmall({
             {proposalAuthor}
           </a>
         </h1>
+        <div className="badge badge-success p-3 font-bold">{status}</div>
         <div className="badge badge-success p-3">
           {status ? getProposalStatus(status) : '...'}
         </div>
@@ -136,7 +143,7 @@ export function ProposalSmall({
         </div>
       </div>
       <div className="p-5 flex flex-row rounded-md justify-end">
-        <button className="btn outline gap-2">
+        <button className="btn outline gap-2" onClick={handleClick}>
           Read All
           <svg
             width="24"
