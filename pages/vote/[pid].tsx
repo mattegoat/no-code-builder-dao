@@ -23,7 +23,10 @@ const ProposalPage: NextPage = () => {
 
   const { proposals } = useProposals({ collectionAddress: DAO_ADDRESS })
 
-  const proposal = useMemo(() => (proposals ? proposals[pid] : null), [pid, proposals])
+  const proposal = useMemo(
+    () => (proposals ? proposals[proposals.length - pid] : null),
+    [pid, proposals]
+  )
 
   const { data: ensName } = useEnsName({
     address: proposal?.proposer,

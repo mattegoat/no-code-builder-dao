@@ -20,7 +20,7 @@ export function ProposalSmall({
   const router = useRouter()
 
   const handleClick = () => {
-    router.push(`/vote/${proposalIndex - 1}`)
+    router.push(`/vote/${proposalIndex}`)
   }
   return (
     <div className="w-full rounded-md mt-4 bg-neutral">
