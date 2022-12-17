@@ -12,6 +12,7 @@ import React from 'react'
 import { useEnsName, useEnsAvatar } from 'wagmi'
 import { shortenAddress } from './../../utils'
 import ReactHtmlParser from 'react-html-parser'
+import classes from './styles.module.css'
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
@@ -67,7 +68,9 @@ const ProposalPage: NextPage = () => {
         </h1>
       </div>
       <h1 className="font-bold text-xl pt-5 text-primary">Description</h1>
-      <div className="pt-5">{ReactHtmlParser(proposal?.description || '')}</div>
+      <div className={classes.markdown}>
+        {ReactHtmlParser(proposal?.description.split('&&')[1] || '')}
+      </div>
     </div>
   )
 }
