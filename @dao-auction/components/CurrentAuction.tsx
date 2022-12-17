@@ -5,6 +5,14 @@ import TokenTitle from './TokenTitle'
 import { AuthCheck } from '../../components/elements'
 import { useActiveAuction } from '../hooks/useActiveAuction'
 import { useAuth } from 'hooks/useAuth'
+import { Bidder } from './TokenRenderer'
+import {
+  NounsBuilderAuctionAuctionBidEventProperties,
+  NounsEvent,
+} from '@dao-auction/types/zora.api.generated'
+import { etherscanLink } from '@dao-auction/lib'
+import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
+import { useAuctionBids } from '@dao-auction/hooks'
 
 /**
  * TODO:
@@ -17,10 +25,17 @@ export interface CurrentAuctionProps extends React.HTMLProps<HTMLDivElement> {
    * Nounish NFT Contract address
    */
   daoAddress: string
+  tokenId: string
 }
 
-export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionProps) {
+export default function CurrentAuction({
+  daoAddress,
+  tokenId,
+  ...props
+}: CurrentAuctionProps) {
   const { isConnected } = useAuth()
+
+  const { bids } = useAuctionBids({ collectionAddress: daoAddress, tokenId })
 
   const {
     auctionData,
@@ -76,51 +91,41 @@ export default function CurrentAuction({ daoAddress, ...props }: CurrentAuctionP
           <div className="overflow-x-auto">
             <table className="table w-full">
               <tbody>
-                <tr>
-                  <td className="flex">
-                    <div className="avatar my-auto">
-                      <div className="w-10 rounded-full">
-                        <img src="https://placeimg.com/192/192/people" />
-                      </div>
-                    </div>
-                    <div className="my-auto pl-4 font-semibold">
-                      {auctionData?.highestBidder}
-                    </div>
-                  </td>
-                  <td className="my-auto pl-4 font-bold text-secondary">
-                    Ξ {auctionData?.highestBidPrice}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="flex">
-                    <div className="avatar my-auto">
-                      <div className="w-10 rounded-full">
-                        <img src="https://placeimg.com/192/192/people" />
-                      </div>
-                    </div>
-                    <div className="my-auto pl-4 font-semibold">
-                      {auctionData?.highestBidder}
-                    </div>
-                  </td>
-                  <td className="my-auto pl-4 font-bold text-secondary">
-                    Ξ {auctionData?.highestBidPrice}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="flex">
-                    <div className="avatar my-auto">
-                      <div className="w-10 rounded-full">
-                        <img src="https://placeimg.com/192/192/people" />
-                      </div>
-                    </div>
-                    <div className="my-auto pl-4 font-semibold">
-                      {auctionData?.highestBidder}
-                    </div>
-                  </td>
-                  <td className="my-auto pl-4 font-bold text-secondary">
-                    Ξ {auctionData?.highestBidPrice}
-                  </td>
-                </tr>
+                {bids?.slice(0, 3).map((bid: NounsEvent, index) => (
+                  <tr key={index}>
+                    <td className="flex">
+                      <Bidder
+                        index={index}
+                        address={
+                          (
+                            bid.properties
+                              .properties as NounsBuilderAuctionAuctionBidEventProperties
+                          ).bidder
+                        }
+                      />
+                    </td>
+                    <td className="my-auto pl-4 font-bold text-secondary">
+                      {
+                        (
+                          bid.properties
+                            .properties as NounsBuilderAuctionAuctionBidEventProperties
+                        ).amountPrice.chainTokenPrice?.decimal
+                      }{' '}
+                      Ξ
+                    </td>
+                    <td className="my-auto pl-4 font-bold text-secondary">
+                      <a
+                        href={etherscanLink({
+                          linkType: 'tx',
+                          hash: bid.transactionInfo.transactionHash || '',
+                        })}
+                        target="_blank"
+                        rel="noreferrer">
+                        <ArrowUpRightIcon className="text-primary" />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useMemo } from 'react'
+import React from 'react'
 import TokenThumbnail from './TokenThumbnail'
 import TokenTitle from './TokenTitle'
 import TokenHolder from './TokenHolder'
@@ -55,34 +55,15 @@ export default function TokenRenderer({
                     {bids?.map((bid: NounsEvent, index) => (
                       <tr key={index}>
                         <td className="flex">
-                          <div className="avatar my-auto">
-                            <div className="w-10 rounded-full">
-                              <img
-                                src={
-                                  useEnsAvatar({
-                                    addressOrName: (
-                                      bid.properties
-                                        .properties as NounsBuilderAuctionAuctionBidEventProperties
-                                    ).bidder,
-                                  }).data || `https://avatar.tobi.sh/${index}`
-                                }
-                              />
-                            </div>
-                          </div>
-                          <div className="my-auto pl-4 font-semibold">
-                            {useEnsName({
-                              address: (
+                          <Bidder
+                            index={index}
+                            address={
+                              (
                                 bid.properties
                                   .properties as NounsBuilderAuctionAuctionBidEventProperties
-                              ).bidder,
-                            }).data ||
-                              shortenAddress(
-                                (
-                                  bid.properties
-                                    .properties as NounsBuilderAuctionAuctionBidEventProperties
-                                ).bidder
-                              )}
-                          </div>
+                              ).bidder
+                            }
+                          />
                         </td>
                         <td className="my-auto pl-4 font-bold text-secondary">
                           {
@@ -116,5 +97,22 @@ export default function TokenRenderer({
         </div>
       </div>
     </div>
+  )
+}
+
+export function Bidder({ index, address }: { index: number; address: string }) {
+  const { data } = useEnsAvatar({ addressOrName: address })
+  const { data: ensName } = useEnsName({ address })
+  return (
+    <>
+      <div className="avatar my-auto">
+        <div className="w-10 rounded-full">
+          <img src={data || `https://avatar.tobi.sh/${index}`} alt="avatar" />
+        </div>
+      </div>
+      <div className="my-auto pl-4 font-semibold">
+        {ensName || shortenAddress(address)}
+      </div>
+    </>
   )
 }

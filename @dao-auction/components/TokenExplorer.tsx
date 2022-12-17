@@ -49,7 +49,11 @@ export default function TokenPagination({
   return (
     <div {...props} className="flex flex-col gap-2">
       {tokenId === totalSupply - 1 ? (
-        <>{auctionRenderer || <CurrentAuction daoAddress={daoAddress} />}</>
+        <>
+          {auctionRenderer || (
+            <CurrentAuction daoAddress={daoAddress} tokenId={tokenId?.toString()!} />
+          )}
+        </>
       ) : (
         <TokenRenderer daoAddress={daoAddress} tokenId={tokenId?.toString()!} />
       )}

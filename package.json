@@ -11,8 +11,6 @@
     "pretty": "prettier --write ."
   },
   "dependencies": {
-    "@ensdomains/ens-avatar": "^0.2.0",
-    "@ensdomains/ensjs": "^3.0.0-alpha.39",
     "@fontsource/ia-writer-mono": "^4.5.3",
     "@fontsource/inter": "^4.5.12",
     "@heroicons/react": "^2.0.13",
