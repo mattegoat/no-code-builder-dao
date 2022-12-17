@@ -15,7 +15,7 @@ export function ProposalSmall({
 }) {
   return (
     <div className="w-full rounded-md mt-4 bg-neutral">
-      <div className="p-5 flex flex-row rounded-md bg-primary justify-between">
+      <div className="p-5 flex flex-row rounded-md bg-neutral-focus justify-between">
         <h1 className="text-bold text-xl">{proposalIndex}</h1>
         <h1 className="font-extrabold	 text-xl">
           {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
@@ -27,8 +27,8 @@ export function ProposalSmall({
       </div>
       <div className="flex flex-row p-5 gap-5">
         <div className="rounded-md flex flex-col w-1/4">
-          <div className="rounded-md p-5 bg-success flex flex-col w-full">
-            <h1 className="font-bold text-lg pb-3 text-neutral">For</h1>
+          <div className="rounded-md p-5 outline flex flex-col w-full">
+            <h1 className="font-bold text-lg pb-3 text-success">For</h1>
             <div className="avatar-group -space-x-6">
               <div className="avatar">
                 <div className="w-12">
@@ -47,7 +47,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span>+10</span>
+                  <span className="text-success font-bold">+10</span>
                 </div>
               </div>
             </div>
@@ -58,8 +58,8 @@ export function ProposalSmall({
             max="100"></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
-          <div className="rounded-md p-5 bg-error flex flex-col w-full">
-            <h1 className="font-bold text-lg pb-3 text-neutral">Against</h1>
+          <div className="rounded-md p-5 outline flex flex-col w-full">
+            <h1 className="font-bold text-lg pb-3 text-error">Against</h1>
             <div className="avatar-group -space-x-6">
               <div className="avatar">
                 <div className="w-12">
@@ -78,7 +78,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span>+10</span>
+                  <span className="text-error font-bold">+10</span>
                 </div>
               </div>
             </div>
@@ -89,8 +89,8 @@ export function ProposalSmall({
             max="100"></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
-          <div className="rounded-md p-5 bg-info flex flex-col w-full">
-            <h1 className="font-bold text-lg pb-3 text-neutral">Abstain</h1>
+          <div className="rounded-md p-5 outline flex flex-col w-full">
+            <h1 className="font-bold text-lg pb-3 text-info">Abstain</h1>
             <div className="avatar-group -space-x-6">
               <div className="avatar">
                 <div className="w-12">
@@ -109,7 +109,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span>+10</span>
+                  <span className="text-info font-bold">+10</span>
                 </div>
               </div>
             </div>
@@ -120,14 +120,12 @@ export function ProposalSmall({
             max="100"></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
-          <div className="rounded-md p-5 bg-base-100 flex flex-col w-full h-full justify-between">
-            <h1 className="font-bold text-lg pb-3 text-neutral invert ">Threshold</h1>
-            <h1 className="font-bold text-lg pb-3 text-accent invert ">
-              {threshold} votes
-            </h1>
+          <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
+            <h1 className="font-bold text-lg pb-3  ">Threshold</h1>
+            <h1 className="font-bold text-lg pb-3 text-accent">{threshold} votes</h1>
           </div>
           <progress
-            className="progress progress-neutral-content w-full mt-3"
+            className="progress progress-accent w-full mt-3"
             value="10"
             max="100"></progress>
         </div>
