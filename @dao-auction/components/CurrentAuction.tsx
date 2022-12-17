@@ -91,6 +91,10 @@ export default function CurrentAuction({
           <div className="overflow-x-auto">
             <table className="table w-full">
               <tbody>
+                <span className="text-md font-semibold text-secondary pt-3">
+                  Bid Activity
+                </span>
+
                 {bids?.slice(0, 3).map((bid: NounsEvent, index) => (
                   <tr key={index}>
                     <td className="flex">
@@ -126,12 +130,72 @@ export default function CurrentAuction({
                     </td>
                   </tr>
                 ))}
-                {bids?.length === 0 && (
-                  <h3 className="m-auto pl-4 font-bold text-secondary">No bids.</h3>
-                )}
+                {bids?.length === 0 && <h3 className=" pt-4 text-accent">No bids yet</h3>}
               </tbody>
             </table>
           </div>
+          {bids?.length !== 0 &&
+            bids?.length !== 1 &&
+            bids?.length !== 2 &&
+            bids?.length !== 3 && (
+              <div className="-translate-y-4 m-auto">
+                <label htmlFor="my-modal-4" className="btn btn-sm">
+                  See all
+                </label>
+              </div>
+            )}
+          <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+          <label htmlFor="my-modal-4" className="modal cursor-pointer">
+            <label className="modal-box relative" htmlFor="">
+              <h3 className="text-lg font-bold">
+                Bids for {<TokenTitle daoAddress={daoAddress} tokenId={tokenId} />}
+              </h3>
+              <div className="py-4">
+                <table className="table w-full">
+                  <tbody>
+                    {bids?.map((bid: NounsEvent, index) => (
+                      <tr key={index}>
+                        <td className="flex">
+                          <Bidder
+                            index={index}
+                            address={
+                              (
+                                bid.properties
+                                  .properties as NounsBuilderAuctionAuctionBidEventProperties
+                              ).bidder
+                            }
+                          />
+                        </td>
+                        <td className="my-auto pl-4 font-bold text-secondary">
+                          {
+                            (
+                              bid.properties
+                                .properties as NounsBuilderAuctionAuctionBidEventProperties
+                            ).amountPrice.chainTokenPrice?.decimal
+                          }{' '}
+                          Ξ
+                        </td>
+                        <td className="my-auto pl-4 font-bold text-secondary">
+                          <a
+                            href={etherscanLink({
+                              linkType: 'tx',
+                              hash: bid.transactionInfo.transactionHash || '',
+                            })}
+                            target="_blank"
+                            rel="noreferrer">
+                            <ArrowUpRightIcon className="text-primary" />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                    {bids?.length === 0 && (
+                      <h3 className="m-auto pl-4 font-bold text-secondary">No bids.</h3>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </label>
+          </label>
           {/* <span>Bidder: {auctionData?.highestBidder}</span> */}
         </div>
         {/* <AuthCheck
