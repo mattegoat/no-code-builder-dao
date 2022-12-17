@@ -12,6 +12,7 @@ import { ProposalState } from '@dao-auction/types/proposal'
 import { useDeepCompareCallback } from 'use-deep-compare'
 import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
+import { useProvider } from 'wagmi'
 
 export function useProposals({
   collectionAddress,
@@ -22,6 +23,8 @@ export function useProposals({
   const [status, setStatus] = React.useState<ProposalState[] | null>(null)
 
   const { daoInfo } = useDao()
+
+  const provider = useProvider()
 
   const { BuilderGovernor } = useNounsProtocol({
     governorAddress: daoInfo.governorAddress || ethers.constants.AddressZero,
@@ -45,11 +48,15 @@ export function useProposals({
     try {
       const _statuses = await Promise.all(
         proposals.map(async (p) => {
-          const _id = ethers.utils.hexZeroPad(ethers.utils.hexlify(p.proposalId), 32)
-          console.log(_id)
-          console.log(await BuilderGovernor?.proposalEta(_id))
-          const _state: ProposalState = (await BuilderGovernor?.proposalEta(_id)) || -1
-          return _state
+          let ABI = ['function state(bytes32 _proposalId) public view returns (uint8)']
+          let iface = new ethers.utils.Interface(ABI)
+          const _contract = new ethers.Contract(
+            daoInfo.governorAddress || ethers.constants.AddressZero,
+            iface,
+            provider
+          )
+          const result = await _contract.state(p.proposalId.valueOf())
+          return result
         })
       )
       setStatus(_statuses)
@@ -59,7 +66,7 @@ export function useProposals({
       setStatus(null)
       setIsFetching(false)
     }
-  }, [proposals, BuilderGovernor])
+  }, [proposals, daoInfo])
 
   React.useEffect(() => {
     updateProposalsStatus()
