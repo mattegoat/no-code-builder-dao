@@ -1,13 +1,16 @@
+import { DAO_ADDRESS } from '@dao-auction/config'
+import { ethers } from 'ethers'
+
 export type TDao = {
   name?: string | null
-  collectionAddress?: string | null
-  auctionAddress?: string | null
-  governorAddress?: string | null
-  metadataAddress?: string | null
+  collectionAddress: string
+  auctionAddress: string
+  governorAddress: string
+  metadataAddress: string
   description?: string | null
   symbol?: string | null
   totalSupply?: number | null
-  treasuryAddress?: string | null
+  treasuryAddress: string | null
   contractAddress?: string | null
   error?: any
 }
@@ -17,5 +20,11 @@ export type TDaoContext = {
 }
 
 export const DAO_PROVIDER_INITIAL_STATE: TDaoContext = {
-  daoInfo: {} as TDao,
+  daoInfo: {
+    governorAddress: ethers.constants.AddressZero,
+    auctionAddress: ethers.constants.AddressZero,
+    metadataAddress: ethers.constants.AddressZero,
+    treasuryAddress: ethers.constants.AddressZero,
+    collectionAddress: DAO_ADDRESS,
+  } as TDao,
 }
