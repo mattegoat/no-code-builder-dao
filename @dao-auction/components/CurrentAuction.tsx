@@ -126,6 +126,9 @@ export default function CurrentAuction({
                     </td>
                   </tr>
                 ))}
+                {bids?.length === 0 && (
+                  <h3 className="m-auto pl-4 font-bold text-secondary">No bids.</h3>
+                )}
               </tbody>
             </table>
           </div>
