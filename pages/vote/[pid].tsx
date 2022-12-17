@@ -8,6 +8,10 @@ import {
   useTreasuryUSDValue,
   useUserVotes,
 } from '@dao-auction/hooks'
+import React from 'react'
+import { useEnsName, useEnsAvatar } from 'wagmi'
+import { shortenAddress } from './../../utils'
+import ReactHtmlParser from 'react-html-parser'
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
@@ -20,6 +24,10 @@ const ProposalPage: NextPage = () => {
   const { proposals } = useProposals({ collectionAddress: DAO_ADDRESS })
 
   const proposal = useMemo(() => (proposals ? proposals[pid] : null), [pid, proposals])
+
+  const { data: ensName } = useEnsName({
+    address: proposal?.proposer,
+  })
 
   return (
     <div>
@@ -44,6 +52,19 @@ const ProposalPage: NextPage = () => {
         </h1>
         <div className="badge badge-success p-3 my-auto font-bold">test</div>
       </div>
+      <div className="justify-center w-full pt-3">
+        <h1 className="m-auto text-md lg:text-xl text-center">
+          Proposed by{' '}
+          <a
+            className="text-secondary"
+            href={`https://etherscan.io/address/${proposal?.proposer}`}>
+            {ensName || shortenAddress(proposal?.proposer)}
+          </a>{' '}
+          at <a>{}</a>
+        </h1>
+      </div>
+      <h1 className="font-bold text-xl pt-5 text-primary">Description</h1>
+      <div className="pt-5">{ReactHtmlParser(proposal?.description || '')}</div>
     </div>
   )
 }

@@ -22,7 +22,9 @@ export function Connect({
                   )
                 }
                 if (chain.unsupported) {
-                  return <p>&#x26A0; Wrong Network</p>
+                  return (
+                    <button className="btn btn-primary">&#x26A0; Wrong Network</button>
+                  )
                 }
                 return (
                   <button className="btn btn-primary" onClick={openAccountModal}>
