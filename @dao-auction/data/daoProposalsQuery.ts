@@ -9,7 +9,8 @@ export const DAO_PROPOSALS_QUERY = gql`
           nounsEventTypes: NOUNS_BUILDER_GOVERNOR_EVENT
         }
         pagination: { limit: 100 }
-        where: { collectionAddresses: "0xd2e7684cf3e2511cc3b4538bb2885dc206583076" }
+        sort: { sortKey: CREATED, sortDirection: DESC }
+        where: { collectionAddresses: $collectionAddress }
       ) {
         nodes {
           properties {

@@ -42,13 +42,16 @@ const DAO: NextPage = () => {
         </div>
       </div>
       <div>
-        <ProposalSmall
-          proposalIndex={1}
-          proposalTitle="Write the EIP-1253 in Cairo"
-          timeline="12 December 2022"
-          status="Pending"
-          proposalAuthor="AustinGriffith.eth"
-          threshold={70}></ProposalSmall>
+        {proposals?.map((proposal, index) => (
+          <ProposalSmall
+            key={index}
+            proposalIndex={index + 1}
+            proposalTitle={proposal.description.split('&&')[0]}
+            timeline={new Date(proposal.timeCreated).toLocaleDateString()}
+            status="Pending"
+            proposalAuthor={proposal.proposer}
+            threshold={parseInt(proposal.proposalThreshold)}></ProposalSmall>
+        ))}
       </div>
     </div>
   )
