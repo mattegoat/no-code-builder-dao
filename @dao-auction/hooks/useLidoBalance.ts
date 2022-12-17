@@ -21,7 +21,6 @@ function useLidoBalance(address: string | undefined): BigNumber | undefined {
 
   useEffect(() => {
     if (!lidoContract || !address) return
-    console.log(lidoContract)
     lidoContract.balanceOf(address).then(setBalance)
   }, [lidoContract, address])
 

@@ -8,7 +8,7 @@ import { useTreasuryBalance } from '@dao-auction/hooks/useTreasuryBalance'
 export function Navigation({ daoAddress }: { daoAddress: string }) {
   const router = useRouter()
 
-  const treasuryBalance = useTreasuryBalance(daoAddress)
+  const treasuryBalance = useTreasuryBalance()
 
   return (
     <nav className="flex flex-row items-center gap-8">

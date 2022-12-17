@@ -27,7 +27,7 @@ const { chains, provider } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: 'Public Assembly',
+  appName: 'Nounsite Builder',
   chains,
 })
 

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['avatar.tobi.sh'],
+  },
   swcMinify: true,
   webpack: (config) => {
     config.module.rules.push({

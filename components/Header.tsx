@@ -17,7 +17,7 @@ const DisconnectButton = dynamic(() => import('./elements/DisconnectButton'), {
 export function Header({ daoAddress }: { daoAddress: string }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const treasuryBalance = useTreasuryBalance(daoAddress)
+  const treasuryBalance = useTreasuryBalance()
   const { treasuryAddress } = useAllAddresses({ collectionAddress: daoAddress })
 
   return (
