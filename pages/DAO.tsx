@@ -1,5 +1,6 @@
-import { useTreasuryBalance } from '@dao-auction/hooks'
-import { useTreasuryUSDValue } from '@dao-auction/hooks/useTreasuryBalance'
+import { DAO_ADDRESS } from '@dao-auction/config'
+import { useProposals, useTreasuryBalance, useTreasuryUSDValue } from '@dao-auction/hooks'
+import { useUserVotes } from '@dao-auction/hooks/account'
 import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
@@ -10,6 +11,10 @@ const DAO: NextPage = () => {
 
   const treasuryBalance = useTreasuryBalance()
   const treasuryUSDValue = useTreasuryUSDValue()
+
+  const { proposals } = useProposals({ collectionAddress: DAO_ADDRESS })
+
+  const votes = useUserVotes()
 
   return (
     <div>
@@ -28,8 +33,7 @@ const DAO: NextPage = () => {
       <div className="flex flex-col md:flex-row justify-between pt-7">
         <h1 className="font-bold text-xl text-primary">Proposals</h1>
         <div className="flex flex-row gap-6">
-          {/* TO DO UPDATE NUMBER VOTES */}
-          <h1 className="m-auto">You have x votes</h1>
+          <h1 className="m-auto">You have {votes} votes</h1>
           <button className="btn">Write Proposal</button>
         </div>
       </div>

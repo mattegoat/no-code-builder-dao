@@ -1,7 +1,6 @@
 import useLidoBalance from './useLidoBalance'
 import { useCoingeckoPrice } from '@usedapp/coingecko'
 import { BigNumber, ethers } from 'ethers'
-import { useAllAddresses } from './useAllAddresses'
 import { useBalance } from 'wagmi'
 import { useDao } from 'context/DaoProvider'
 
