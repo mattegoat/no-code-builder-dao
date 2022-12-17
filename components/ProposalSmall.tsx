@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router'
+import { getProposalStatus } from '@dao-auction/lib/proposal'
+import { ProposalState } from '@dao-auction/types/proposal'
 
 export function ProposalSmall({
   proposalIndex,
@@ -11,7 +13,7 @@ export function ProposalSmall({
   proposalIndex: number
   proposalTitle: string
   timeline: string
-  status: string
+  status: ProposalState | null
   proposalAuthor: string
   threshold: number
 }) {
@@ -31,6 +33,9 @@ export function ProposalSmall({
           </a>
         </h1>
         <div className="badge badge-success p-3 font-bold">{status}</div>
+        <div className="badge badge-success p-3">
+          {status ? getProposalStatus(status) : '...'}
+        </div>
       </div>
       <div className="flex flex-row p-5 gap-5">
         <div className="rounded-md flex flex-col w-1/4">

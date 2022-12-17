@@ -16,7 +16,9 @@ const DAO: NextPage = () => {
   const treasuryBalance = useTreasuryBalance()
   const treasuryUSDValue = useTreasuryUSDValue()
 
-  const { proposals } = useProposals({ collectionAddress: DAO_ADDRESS })
+  const { proposals, status } = useProposals({
+    collectionAddress: DAO_ADDRESS,
+  })
 
   const votes = useUserVotes()
 
@@ -45,10 +47,10 @@ const DAO: NextPage = () => {
         {proposals?.map((proposal, index) => (
           <ProposalSmall
             key={index}
-            proposalIndex={index + 1}
+            proposalIndex={proposals.length - index}
             proposalTitle={proposal.description.split('&&')[0]}
             timeline={new Date(proposal.timeCreated).toLocaleDateString()}
-            status="Pending"
+            status={status ? status[index] : null}
             proposalAuthor={proposal.proposer}
             threshold={parseInt(proposal.proposalThreshold)}></ProposalSmall>
         ))}
