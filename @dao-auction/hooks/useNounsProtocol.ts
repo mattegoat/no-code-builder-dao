@@ -24,7 +24,9 @@ export type NounsProtocolAddresses = {
    * Pass in the dao contract token address
    */
   metadataRendererAddress?: string
-
+  /**
+   * Pass in the dao contract governor address
+   */
   governorAddress?: string
 }
 
