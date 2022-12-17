@@ -1,6 +1,10 @@
 import { DAO_ADDRESS } from '@dao-auction/config'
-import { useProposals, useTreasuryBalance, useTreasuryUSDValue } from '@dao-auction/hooks'
-import { useUserVotes } from '@dao-auction/hooks/account'
+import {
+  useProposals,
+  useTreasuryBalance,
+  useTreasuryUSDValue,
+  useUserVotes,
+} from '@dao-auction/hooks'
 import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
