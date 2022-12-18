@@ -139,7 +139,7 @@ const removeBold = (text: string | null): string | null =>
 const removeItalics = (text: string | null): string | null =>
   text ? text.replace(/__/g, '') : text
 
-const governorABI = new utils.Interface(GovernorABI)
+export const governorABI = new utils.Interface(GovernorABI)
 
 const useVotingDelay = (governorAddress: string): number | undefined => {
   const { data: blockDelay } =

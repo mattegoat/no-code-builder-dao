@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DAO_ADDRESS } from '@dao-auction/config'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   useProposals,
   useStats,
@@ -10,12 +10,32 @@ import {
   useUserVotes,
 } from '@dao-auction/hooks'
 import React from 'react'
-import { useEnsName, useEnsAvatar } from 'wagmi'
+import {
+  useEnsName,
+  useEnsAvatar,
+  useContractWrite,
+  usePrepareContractWrite,
+} from 'wagmi'
 import { shortenAddress } from './../../utils'
 import ReactHtmlParser from 'react-html-parser'
 import classes from './styles.module.css'
 import { getProposalStatus } from '@dao-auction/lib/proposal'
 import { Status } from 'components/Status'
+import Select from 'react-select'
+import { useDao } from 'context/DaoProvider'
+import { governorABI } from '@dao-auction/hooks/useAllProposals'
+
+enum VoteOption {
+  Against,
+  For,
+  Abstain,
+}
+
+const voteOptions = [
+  { value: VoteOption.For, label: 'For' },
+  { value: VoteOption.Against, label: 'Against' },
+  { value: VoteOption.Abstain, label: 'Abstain' },
+]
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
@@ -57,8 +77,26 @@ const ProposalPage: NextPage = () => {
   })
 
   const userVotes = useUserVotes()
+  const [voteOption, setVoteOption] = useState<VoteOption>(0)
 
-  const handleVote = useCallback(() => {}, [])
+  const { daoInfo } = useDao()
+
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: daoInfo.governorAddress,
+    contractInterface: governorABI,
+    functionName: 'castVote',
+    args: [proposal?.proposalId.valueOf(), Number(voteOption)],
+  })
+  const {
+    data,
+    isLoading: isCasting,
+    isSuccess,
+    write: castVote,
+  } = useContractWrite(config)
+
+  useEffect(() => {
+    console.log(error as any)
+  }, [error])
 
   return (
     <div>
@@ -175,19 +213,20 @@ const ProposalPage: NextPage = () => {
           <h3 className="text-lg font-bold">Vote</h3>
           <p className="py-4">You have {userVotes} votes</p>
           <div className="w-full flex flex-row gap-3">
-            <select className="select select-primary w-full max-w-xs">
-              <option disabled selected>
-                Choose the option
-              </option>
-              <option>For</option>
-              <option>Against</option>
-              <option>Abstain</option>
-            </select>
+            <Select
+              options={voteOptions}
+              onChange={(option) => setVoteOption(option?.value as VoteOption)}
+              closeMenuOnSelect={false}
+              blurInputOnSelect={false}
+            />
           </div>
           <div className="modal-action">
-            <a className="btn" onClick={handleVote}>
-              Vote
-            </a>
+            <button
+              className="btn"
+              disabled={isCasting || !castVote}
+              onClick={() => castVote?.()}>
+              {isCasting ? 'Voting..' : 'Vote'}
+            </button>
           </div>
         </label>
       </label>

@@ -4,8 +4,7 @@ import dynamic from 'next/dynamic'
 import useSWR from 'swr'
 import { useEffect } from 'react'
 import classes from './styles.module.css'
-import ReactMarkdown from 'react-markdown'
-import remarkBreaks from 'remark-breaks'
+import { DAO_ADDRESS } from '@dao-auction/config'
 
 /*
 const CurrentAuction = dynamic(() => import('../@dao-auction/components/CurrentAuction'), {
@@ -61,7 +60,7 @@ const Home: NextPage = () => {
     <>
       <Seo />
       <section id="current-auction" className="pt-10">
-        <TokenExplorer daoAddress="0xd2E7684Cf3E2511cc3B4538bB2885Dc206583076" />
+        <TokenExplorer daoAddress={DAO_ADDRESS} />
       </section>
       <section id="custom-content" className="pt-10">
         <div className={classes.markdown}>

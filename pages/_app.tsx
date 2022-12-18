@@ -2,12 +2,14 @@ import 'styles/globals.css'
 import type { AppProps } from 'next/app'
 import { AppWrapper, Header } from './../components'
 import { Footer } from 'components/Footer'
+import { DAO_ADDRESS } from '@dao-auction/config'
+import { etherscanLink } from '@dao-auction/lib'
 
 function NetLabel({ Component, pageProps }: AppProps) {
   return (
     <AppWrapper>
       <div className="w-12/12 md:11/12 lg:w-10/12 m-auto">
-        <Header daoAddress="0xd2E7684Cf3E2511cc3B4538bB2885Dc206583076" />
+        <Header daoAddress={DAO_ADDRESS} />
         <main className="px-6">
           <Component {...pageProps} />
         </main>
@@ -15,7 +17,7 @@ function NetLabel({ Component, pageProps }: AppProps) {
       <Footer
         twitter="test"
         discord="test"
-        etherscan="https://etherscan.com/0xd2E7684Cf3E2511cc3B4538bB2885Dc206583076"
+        etherscan={etherscanLink({ linkType: 'contract', hash: DAO_ADDRESS })}
       />
     </AppWrapper>
   )
