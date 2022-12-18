@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DAO_ADDRESS } from '@dao-auction/config'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   useProposals,
+  useStats,
   useTreasuryBalance,
   useTreasuryUSDValue,
   useUserVotes,
@@ -13,6 +14,7 @@ import { useEnsName, useEnsAvatar } from 'wagmi'
 import { shortenAddress } from './../../utils'
 import ReactHtmlParser from 'react-html-parser'
 import classes from './styles.module.css'
+import { getProposalStatus } from '@dao-auction/lib/proposal'
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
@@ -22,16 +24,40 @@ const ProposalPage: NextPage = () => {
     history.back()
   }
 
-  const { proposals } = useProposals({ collectionAddress: DAO_ADDRESS })
+  const {
+    details: proposals,
+    proposals: details,
+    status,
+  } = useProposals({
+    collectionAddress: DAO_ADDRESS,
+  })
+
+  const { ownerCount } = useStats({
+    collectionAddress: DAO_ADDRESS,
+  })
 
   const proposal = useMemo(
     () => (proposals ? proposals[proposals.length - pid] : null),
     [pid, proposals]
   )
 
+  const detail = useMemo(
+    () => (details ? details[details.length - pid] : null),
+    [pid, details]
+  )
+
+  const proposalStatus = useMemo(
+    () => (status ? status[status.length - pid] : null),
+    [pid, status]
+  )
+
   const { data: ensName } = useEnsName({
     address: proposal?.proposer,
   })
+
+  const userVotes = useUserVotes()
+
+  const handleVote = useCallback(() => {}, [])
 
   return (
     <div>
@@ -52,9 +78,11 @@ const ProposalPage: NextPage = () => {
           </svg>
         </button>
         <h1 className="m-auto font-bold text-lg lg:text-2xl">
-          {proposal?.description.split('&&')[0]}
+          {proposal?.description?.split('&&')[0]}
         </h1>
-        <div className="badge badge-success p-3 my-auto font-bold">test</div>
+        <div className="badge badge-success p-3 my-auto font-bold">
+          {proposalStatus !== null && getProposalStatus(proposalStatus)}
+        </div>
       </div>
       <div className="justify-center w-full pt-3">
         <h1 className="m-auto text-md lg:text-xl text-center">
@@ -69,7 +97,7 @@ const ProposalPage: NextPage = () => {
       </div>
       <h1 className="font-bold text-xl pt-5 text-primary">Description</h1>
       <div className={classes.markdown}>
-        {ReactHtmlParser(proposal?.description.split('&&')[1] || '')}
+        {ReactHtmlParser(proposal?.description?.split('&&')[1] || '')}
       </div>
       <div></div>
       <h1 className="font-bold text-xl py-5 text-primary">Proposed transactions</h1>
@@ -79,7 +107,7 @@ const ProposalPage: NextPage = () => {
       <div className="flex flex-row gap-4 mb-4">
         <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
           <h1 className="text-success text-center font-bold text-xl pb-6">For</h1>
-          <h1 className=" text-center font-bold text-3xl pb-3">10</h1>
+          <h1 className=" text-center font-bold text-3xl pb-3">{detail?.forVotes}</h1>
           <progress
             className="progress progress-success w-full mt-3"
             value="10"
@@ -87,7 +115,7 @@ const ProposalPage: NextPage = () => {
         </div>
         <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
           <h1 className="text-error text-center font-bold text-xl pb-6">Against</h1>
-          <h1 className=" text-center font-bold text-3xl pb-3">10</h1>
+          <h1 className=" text-center font-bold text-3xl pb-3">{detail?.againstVotes}</h1>
           <progress
             className="progress progress-error w-full mt-3"
             value="10"
@@ -95,7 +123,7 @@ const ProposalPage: NextPage = () => {
         </div>
         <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
           <h1 className="text-info text-center font-bold text-xl pb-6">Abstain</h1>
-          <h1 className=" text-center font-bold text-3xl pb-3">10</h1>
+          <h1 className=" text-center font-bold text-3xl pb-3">{detail?.abstainVotes}</h1>
           <progress
             className="progress progress-info w-full mt-3"
             value="10"
@@ -106,19 +134,22 @@ const ProposalPage: NextPage = () => {
         <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
           <h1 className=" font-bold text-xl pb-2">Voters</h1>
           <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            10 <span className="text-sm text-primary-content">/40</span>
+            {detail?.forVotes + detail?.abstainVotes + detail?.againstVotes}{' '}
+            <span className="text-sm text-primary-content">/{ownerCount}</span>
           </h1>
         </div>
         <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
           <h1 className="font-bold text-xl pb-2">Threshold</h1>
           <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            20
+            {proposal?.proposalThreshold}
           </h1>
         </div>
         <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
           <h1 className="font-bold text-xl pb-2">Ends</h1>
           <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            1/12/1030
+            {proposal?.voteEnd
+              ? new Date(parseInt(proposal?.voteEnd) * 1000).toLocaleString()
+              : 'n/a'}
           </h1>
         </div>
         <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
@@ -137,7 +168,7 @@ const ProposalPage: NextPage = () => {
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           <h3 className="text-lg font-bold">Vote</h3>
-          <p className="py-4">You have x votes</p>
+          <p className="py-4">You have {userVotes} votes</p>
           <div className="w-full flex flex-row gap-3">
             <select className="select select-primary w-full max-w-xs">
               <option disabled selected>
@@ -149,7 +180,9 @@ const ProposalPage: NextPage = () => {
             </select>
           </div>
           <div className="modal-action">
-            <a className="btn">Vote</a>
+            <a className="btn" onClick={handleVote}>
+              Vote
+            </a>
           </div>
         </label>
       </label>

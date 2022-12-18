@@ -47,6 +47,7 @@ export function ProposalSmall({
           </a>
         </h1>
         {/* <div className="badge badge-success p-3 font-bold">{status}</div> */}
+        {/* TODO: Badge style */}
         <div className="badge badge-success p-3">
           {status !== null && getProposalStatus(status)}
         </div>
