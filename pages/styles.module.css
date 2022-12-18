@@ -25,6 +25,25 @@
     font-family: inherit;
 
   }
+
+  .markdown summary{
+    background: hsl(var(--n));
+    padding: 20px;
+    border-radius: var(--rounded-btn);
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 23px;
+    width: calc(100% + 40px);
+    transform: translateX(-20px);
+  }
+
+  .markdown details{
+    padding: 20px;
+  }
+
+  .markdown language-js{
+    background-color: hsl(var(--n));
+  }
   
   .markdown h1 {
     font-size: 1.7rem;
