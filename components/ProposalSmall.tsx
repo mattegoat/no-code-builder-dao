@@ -56,28 +56,9 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-success">For</h1>
-            <div className="avatar-group -space-x-6">
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar placeholder">
-                <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-success font-bold">{forCount}</span>
-                </div>
-              </div>
-            </div>
+            <span className="text-success font-bold text-center text-3xl">
+              {forCount}
+            </span>
           </div>
           <progress
             className="progress progress-success w-full mt-3"
@@ -87,28 +68,9 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-error">Against</h1>
-            <div className="avatar-group -space-x-6">
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar placeholder">
-                <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-error font-bold">{againstCount}</span>
-                </div>
-              </div>
-            </div>
+            <span className="text-error font-bold text-center text-3xl">
+              {againstCount}
+            </span>
           </div>
           <progress
             className="progress progress-error w-full mt-3"
@@ -118,28 +80,9 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-info">Abstain</h1>
-            <div className="avatar-group -space-x-6">
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar">
-                <div className="w-12">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
-              <div className="avatar placeholder">
-                <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-info font-bold">{abstainCount}</span>
-                </div>
-              </div>
-            </div>
+            <span className="text-info font-bold text-center text-3xl">
+              {abstainCount}
+            </span>
           </div>
           <progress
             className="progress progress-info w-full mt-3"
@@ -148,8 +91,10 @@ export function ProposalSmall({
         </div>
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
-            <h1 className="font-bold text-lg pb-3  ">Threshold</h1>
-            <h1 className="font-bold text-lg pb-3 text-accent">{threshold} votes</h1>
+            <h1 className="font-bold text-lg   ">Threshold</h1>
+            <h1 className="font-bold text-lg text-center  text-accent">
+              {threshold} votes
+            </h1>
           </div>
           <progress
             className="progress progress-accent w-full mt-3"
