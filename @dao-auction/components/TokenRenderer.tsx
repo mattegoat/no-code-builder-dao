@@ -34,10 +34,32 @@ export default function TokenRenderer({
           <TokenWinningBid daoAddress={daoAddress} tokenId={tokenId} />
         </div>
         <span className="text-sm md:text-md lg:text-lg	font-bold pt-5">
-          Born <span className=" text-secondary">December 12, 2022</span>
+          Born{' '}
+          <span className=" text-secondary">
+            {bids && bids.length
+              ? new Date(
+                  parseInt(
+                    (
+                      bids[0]?.properties
+                        .properties as NounsBuilderAuctionAuctionBidEventProperties
+                    )?.endTime
+                  ) * 1000
+                ).toLocaleString()
+              : 'n/a'}
+          </span>
         </span>
         <span className="text-sm md:text-md lg:text-lg	font-bold ">
-          Winner <span className=" text-secondary">austingriffith.eth</span>
+          Winner{' '}
+          <span className=" text-secondary">
+            {bids && bids.length
+              ? shortenAddress(
+                  (
+                    bids[0]?.properties
+                      .properties as NounsBuilderAuctionAuctionBidEventProperties
+                  )?.bidder
+                )
+              : 'n/a'}
+          </span>
         </span>
         <div className="flex flex-row gap-4 pt-5">
           <label htmlFor="my-modal-4" className="btn  btn-primary">

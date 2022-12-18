@@ -20,6 +20,7 @@ export const DAO_AUCTION_BIDS_QUERY = gql`
                 ... on NounsBuilderAuctionAuctionBidEventProperties {
                   __typename
                   bidder
+                  endTime
                   tokenId
                   amount
                   amountPrice {

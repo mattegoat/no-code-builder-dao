@@ -17,7 +17,7 @@ const DAO: NextPage = () => {
   const treasuryBalance = useTreasuryBalance()
   const treasuryUSDValue = useTreasuryUSDValue()
 
-  const { proposals, status } = useProposals({
+  const { details, transactions } = useProposals({
     collectionAddress: DAO_ADDRESS,
   })
 
@@ -45,10 +45,10 @@ const DAO: NextPage = () => {
         </div>
       </div>
       <div>
-        {proposals?.map((proposal, index) => (
+        {details?.map((proposal, index) => (
           <ProposalSmall
             key={index}
-            proposalIndex={proposals.length - index}
+            proposalIndex={details.length - index}
             proposalTitle={proposal.description.split('&&')[0]}
             timeline={new Date(proposal.timeCreated).toLocaleDateString()}
             status={status ? status[index] : null}

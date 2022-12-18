@@ -7,12 +7,14 @@ import {
 } from '../types/zora.api.generated'
 import { zoraApiFetcher } from '../lib/zoraApiFetcher'
 import { DAO_PROPOSALS_QUERY } from '@dao-auction/data/daoProposalsQuery'
-import { useNounsProtocol } from './useNounsProtocol'
-import { ProposalState } from '@dao-auction/types/proposal'
+import { ProposalData, ProposalDetail, ProposalState } from '@dao-auction/types/proposal'
 import { useDeepCompareCallback } from 'use-deep-compare'
 import { useDao } from 'context/DaoProvider'
-import { ethers } from 'ethers'
-import { useProvider } from 'wagmi'
+import { ethers, utils } from 'ethers'
+import { useContractRead, useContractReads, useProvider } from 'wagmi'
+import { DAO_ADDRESS } from '@dao-auction/config'
+import GovernorABI from '../lib/abi/Governor.json'
+// import * as R from 'ramda'
 
 export function useProposals({
   collectionAddress,
@@ -26,21 +28,18 @@ export function useProposals({
 
   const provider = useProvider()
 
-  const { BuilderGovernor } = useNounsProtocol({
-    governorAddress: daoInfo.governorAddress || ethers.constants.AddressZero,
-  })
-
   const { data, error } = useSWR<RootQuery>(`dao-proposals`, async () =>
     zoraApiFetcher(DAO_PROPOSALS_QUERY, {
       collectionAddress: [collectionAddress],
     })
   )
 
-  const proposals = data?.nouns.nounsEvents.nodes.map(
-    (n) => n.properties.properties as NounsBuilderGovernorProposalCreatedEventProperties
-  )
+  const proposals =
+    data?.nouns.nounsEvents.nodes.map(
+      (n) => n.properties.properties as NounsBuilderGovernorProposalCreatedEventProperties
+    ) || []
 
-  const transaction = data?.nouns.nounsEvents.nodes.map((n) => n.transactionInfo)
+  const transactions = data?.nouns.nounsEvents.nodes.map((n) => n.transactionInfo) || []
 
   const updateProposalsStatus = useDeepCompareCallback(async () => {
     if (!proposals) return
@@ -73,10 +72,123 @@ export function useProposals({
   }, [collectionAddress, updateProposalsStatus])
 
   return {
-    proposals,
-    status,
-    transaction,
-    isFetching,
-    error,
+    transactions: transactions,
+    details: proposals,
   }
+}
+
+const hashRegex = /^\s*#{1,6}\s+([^\n]+)/
+const equalTitleRegex = /^\s*([^\n]+)\n(={3,25}|-{3,25})/
+
+/**
+ * Extract a markdown title from a proposal body that uses the `# Title` format
+ * Returns null if no title found.
+ */
+const extractHashTitle = (body: string) => body.match(hashRegex)
+/**
+ * Extract a markdown title from a proposal body that uses the `Title\n===` format.
+ * Returns null if no title found.
+ */
+const extractEqualTitle = (body: string) => body.match(equalTitleRegex)
+
+/**
+ * Extract title from a proposal's body/description. Returns null if no title found in the first line.
+ * @param body proposal body
+ */
+const extractTitle = (body: string | undefined): string | null => {
+  if (!body) return null
+  const hashResult = extractHashTitle(body)
+  const equalResult = extractEqualTitle(body)
+  return hashResult ? hashResult[1] : equalResult ? equalResult[1] : null
+}
+
+const removeBold = (text: string | null): string | null =>
+  text ? text.replace(/\*\*/g, '') : text
+const removeItalics = (text: string | null): string | null =>
+  text ? text.replace(/__/g, '') : text
+
+const governorABI = new utils.Interface(GovernorABI)
+
+const useVotingDelay = (governorAddress: string): number | undefined => {
+  const { data: blockDelay } =
+    useContractRead({
+      addressOrName: governorAddress,
+      contractInterface: governorABI,
+      functionName: 'votingDelay',
+      args: [],
+    }) || []
+  return blockDelay?.toNumber()
+}
+
+export const useProposalIds = (): string[] => {
+  const { data, error } = useSWR<RootQuery>(`dao-proposals-count`, async () =>
+    zoraApiFetcher(DAO_PROPOSALS_QUERY, {
+      collectionAddress: [DAO_ADDRESS],
+    })
+  )
+
+  return (
+    data?.nouns.nounsEvents.nodes.map(
+      (n) =>
+        (n.properties.properties as NounsBuilderGovernorProposalCreatedEventProperties)
+          .proposalId
+    ) || []
+  )
+}
+
+const countToIndices = (count: number | undefined) => {
+  return typeof count === 'number' ? new Array(count).fill(0).map((_, i) => [i + 1]) : []
+}
+
+export const useAllProposalsViaChain = (): ProposalData => {
+  const { daoInfo } = useDao()
+
+  const proposalIds = useProposalIds()
+  const votingDelay = useVotingDelay(daoInfo.governorAddress)
+
+  const proposals: any[] = []
+  const proposalStates: any[] = []
+
+  const formattedLogs = useProposals({ collectionAddress: DAO_ADDRESS })
+
+  // Early return until events are fetched
+  return React.useMemo(() => {
+    const logs = formattedLogs ?? []
+    if (proposals.length && !logs.transactions?.length) {
+      return { data: [], loading: true }
+    }
+
+    return {
+      data: proposals.map((p, i) => {
+        const proposal = p?.[0]
+        const description: string = logs.details[i]?.description?.replace(/\\n/g, '\n')
+        return {
+          id: logs.details[i]?.proposalId.toString(),
+          title: extractTitle(description) ?? 'Untitled',
+          description: description ?? 'No description.',
+          proposer: proposal?.proposer,
+          status: proposalStates[i]?.[0] ?? ProposalState.UNDETERMINED,
+          proposalThreshold: parseInt(proposal?.proposalThreshold?.toString() ?? '0'),
+          quorumVotes: parseInt(proposal?.quorumVotes?.toString() ?? '0'),
+          forCount: parseInt(proposal?.forVotes?.toString() ?? '0'),
+          againstCount: parseInt(proposal?.againstVotes?.toString() ?? '0'),
+          abstainCount: parseInt(proposal?.abstainVotes?.toString() ?? '0'),
+          startVote: parseInt(proposal?.startVote?.toString() ?? ''),
+          eta: proposal?.endVote
+            ? new Date(proposal?.endVote?.toNumber() * 1000)
+            : undefined,
+          details: logs.details[i].targets.map((target, j) => {
+            return {
+              target,
+              value: logs.details[i].values[j],
+              callData: logs.details[i].calldatas[j],
+              functionSig: '',
+            } as ProposalDetail
+          }),
+          transactionHash: logs.transactions[i]?.transactionHash || '',
+        }
+      }),
+      loading: false,
+    }
+  }, [formattedLogs, proposalStates, proposals, votingDelay])
 }

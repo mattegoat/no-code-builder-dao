@@ -1,23 +1,21 @@
 import { useRouter } from 'next/router'
 import { getProposalStatus } from '@dao-auction/lib/proposal'
-import { ProposalState } from '@dao-auction/types/proposal'
+import { Proposal, ProposalState } from '@dao-auction/types/proposal'
+import { etherscanLink, shortenAddress } from '@dao-auction/lib'
+import { useEnsName } from 'wagmi'
 
 export function ProposalSmall({
   proposalIndex,
-  proposalTitle,
-  timeline,
-  status,
-  proposalAuthor,
-  threshold,
+  proposal,
 }: {
   proposalIndex: number
-  proposalTitle: string
-  timeline: string
-  status: ProposalState | null
-  proposalAuthor: string
-  threshold: number
+  proposal: Proposal
 }) {
   const router = useRouter()
+
+  const { data: ensName } = useEnsName({
+    address: proposal.proposer,
+  })
 
   const handleClick = () => {
     router.push(`/vote/${proposalIndex}`)
@@ -27,14 +25,16 @@ export function ProposalSmall({
       <div className="p-5 flex flex-row rounded-md bg-neutral-focus justify-between">
         <h1 className="text-bold text-xl">{proposalIndex}</h1>
         <h1 className="font-extrabold	 text-xl">
-          {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
-          <a href="https://etherscan.io/address/" className="text-secondary text-lg">
-            {proposalAuthor}
+          {proposal.title} <span className="font-semibold text-lg">by</span>{' '}
+          <a
+            href={etherscanLink({ linkType: 'address', hash: proposal.proposer })}
+            className="text-secondary text-lg">
+            {ensName || shortenAddress(proposal.proposer)}
           </a>
         </h1>
-        <div className="badge badge-success p-3 font-bold">{status}</div>
+        {/* <div className="badge badge-success p-3 font-bold">{status}</div> */}
         <div className="badge badge-success p-3">
-          {status ? getProposalStatus(status) : '...'}
+          {status ? getProposalStatus(proposal.status) : '...'}
         </div>
       </div>
       <div className="flex flex-row p-5 gap-5">
@@ -59,7 +59,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-success font-bold">+10</span>
+                  <span className="text-success font-bold">{proposal.forCount}</span>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-error font-bold">+10</span>
+                  <span className="text-error font-bold">{proposal.againstCount}</span>
                 </div>
               </div>
             </div>
@@ -121,7 +121,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-info font-bold">+10</span>
+                  <span className="text-info font-bold">{proposal.abstainCount}</span>
                 </div>
               </div>
             </div>
@@ -134,7 +134,9 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
             <h1 className="font-bold text-lg pb-3  ">Threshold</h1>
-            <h1 className="font-bold text-lg pb-3 text-accent">{threshold} votes</h1>
+            <h1 className="font-bold text-lg pb-3 text-accent">
+              {proposal.proposalThreshold} votes
+            </h1>
           </div>
           <progress
             className="progress progress-accent w-full mt-3"
