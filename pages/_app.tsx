@@ -7,19 +7,21 @@ import { etherscanLink } from '@dao-auction/lib'
 
 function NetLabel({ Component, pageProps }: AppProps) {
   return (
-    <AppWrapper>
-      <div className="w-12/12 md:11/12 lg:w-10/12 m-auto">
-        <Header daoAddress={DAO_ADDRESS} />
-        <main className="px-6">
-          <Component {...pageProps} />
-        </main>
-      </div>
-      <Footer
-        twitter="test"
-        discord="test"
-        etherscan={etherscanLink({ linkType: 'contract', hash: DAO_ADDRESS })}
-      />
-    </AppWrapper>
+    <div data-theme="forest">
+      <AppWrapper>
+        <div className="w-12/12 md:11/12 lg:w-10/12 m-auto">
+          <Header daoAddress={DAO_ADDRESS} />
+          <main className="px-6">
+            <Component {...pageProps} />
+          </main>
+        </div>
+        <Footer
+          twitter="test"
+          discord="test"
+          etherscan={etherscanLink({ linkType: 'contract', hash: DAO_ADDRESS })}
+        />
+      </AppWrapper>
+    </div>
   )
 }
 

@@ -4,14 +4,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   plugins: [require('@tailwindcss/forms'), require('daisyui')],
   daisyui: {
-    styled: true,
-    themes: true,
-    base: true,
-    utils: true,
-    // logs: true,
-    rtl: false,
-    prefix: '',
-    darkTheme: 'cyberpunk',
+    themes: ['cupcake', 'forest'],
   },
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
