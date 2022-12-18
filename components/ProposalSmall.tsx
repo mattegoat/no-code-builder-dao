@@ -14,6 +14,7 @@ export function ProposalSmall({
   forCount,
   abstainCount,
   againstCount,
+  totalVoters,
 }: {
   proposalIndex: number
   proposalTitle: string
@@ -24,6 +25,7 @@ export function ProposalSmall({
   forCount: number
   abstainCount: number
   againstCount: number
+  totalVoters: number
 }) {
   const router = useRouter()
 
@@ -62,8 +64,8 @@ export function ProposalSmall({
           </div>
           <progress
             className="progress progress-success w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={forCount}
+            max={totalVoters}></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
@@ -74,8 +76,8 @@ export function ProposalSmall({
           </div>
           <progress
             className="progress progress-error w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={againstCount}
+            max={totalVoters}></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
@@ -86,8 +88,8 @@ export function ProposalSmall({
           </div>
           <progress
             className="progress progress-info w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={abstainCount}
+            max={totalVoters}></progress>
         </div>
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
@@ -98,8 +100,8 @@ export function ProposalSmall({
           </div>
           <progress
             className="progress progress-accent w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={forCount}
+            max={threshold}></progress>
         </div>
       </div>
       <div className="p-5 flex flex-row rounded-md justify-end">

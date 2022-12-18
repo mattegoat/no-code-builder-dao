@@ -60,6 +60,11 @@ const DAO: NextPage = () => {
               forCount={proposals[index]?.forVotes}
               abstainCount={proposals[index]?.abstainVotes}
               againstCount={proposals[index]?.againstVotes}
+              totalVoters={
+                proposals[index]?.againstVotes +
+                proposals[index]?.abstainVotes +
+                proposals[index]?.forVotes
+              }
             />
           ))
         )}
