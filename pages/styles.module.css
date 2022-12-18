@@ -1,3 +1,9 @@
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 21px !important;
+  line-height: 24px !important;
+}
+
 .section {
     word-wrap: break-word;
     padding-top: 2rem;
@@ -9,6 +15,7 @@
     font-size: 1.7rem;
     margin-top: 1rem;
     font-family: inherit;
+    padding-bottom: 8px;
 
   }
   
@@ -25,6 +32,7 @@
     font-weight: bold;
     font-family: inherit;
     color: hsl(var(--p));
+    padding-bottom: 8px;
 
   }
   
@@ -34,7 +42,7 @@
     margin-bottom: 1rem;
     font-weight: bold;
     font-family: inherit;
-    color: hsl(var(--s))
+    color: hsl(var(--s));
   }
   
   .markdown h3 {
@@ -42,6 +50,8 @@
     font-size: 1.3rem;
     font-family: inherit;
 color: hsl(var(--p));
+padding-bottom: 8px;
+
   }
 
   .markdown a {
@@ -51,8 +61,8 @@ color: hsl(var(--p));
   .markdown img {
     max-width: 100%;
     height: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
   
   .txnInfoText {
