@@ -57,7 +57,7 @@ export default function CurrentAuction({
           <TokenTitle daoAddress={daoAddress} tokenId={(totalSupply - 1).toString()} />
         )}
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-10">
+          <div className="flex flex-row gap-2 sm:gap-4 md:gap-10 m-auto">
             <div className="flex flex-col gap-1">
               <span className="text-md	font-semibold text-secondary">Current Bid</span>
               <span className="text-lg md:text-xl lg:text-3xl xl:text-4xl	font-bold">
@@ -91,13 +91,13 @@ export default function CurrentAuction({
           <div className="overflow-x-auto">
             <table className="table w-full">
               <tbody>
-                <span className="text-md font-semibold text-secondary pt-3">
+                <span className="text-md font-semibold text-secondary pt-3 sm:pb-0">
                   Bid Activity
                 </span>
 
                 {bids?.slice(0, 3).map((bid: NounsEvent, index) => (
                   <tr key={index}>
-                    <td className="flex">
+                    <td className="flex p-1 pb-2 sm:p-4">
                       <Bidder
                         index={index}
                         address={
@@ -108,7 +108,7 @@ export default function CurrentAuction({
                         }
                       />
                     </td>
-                    <td className="my-auto pl-4 font-bold text-secondary">
+                    <td className="my-auto p-1 pb-2 sm:p-4 font-bold text-secondary">
                       {
                         (
                           bid.properties
