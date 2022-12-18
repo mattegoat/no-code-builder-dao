@@ -142,7 +142,7 @@ const ProposalPage: NextPage = () => {
           <div className="flex flex-col gap-4 px-10 py-4 outline w-full  bg-neutral card">
             <h1 className="font-bold text-xl pb-2">Threshold</h1>
             <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-              {proposal?.proposalThreshold}
+              {proposal?.quorumVotes}
             </h1>
           </div>
         </div>

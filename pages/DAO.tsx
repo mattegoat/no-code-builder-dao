@@ -56,7 +56,7 @@ const DAO: NextPage = () => {
               timeline={new Date(proposal.timeCreated).toLocaleDateString()}
               status={status ? status[index] : null}
               proposalAuthor={proposal.proposer}
-              threshold={parseInt(proposal.proposalThreshold)}
+              threshold={parseInt(proposal.quorumVotes)}
               forCount={proposals[index]?.forVotes}
               abstainCount={proposals[index]?.abstainVotes}
               againstCount={proposals[index]?.againstVotes}

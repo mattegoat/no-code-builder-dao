@@ -3,6 +3,7 @@ import { useAllAddresses } from '@dao-auction/hooks'
 import React from 'react'
 
 import { DaoContext } from './context'
+import { TDao } from './model'
 
 interface DaoProviderProps {
   children: React.ReactNode
@@ -13,7 +14,7 @@ const DaoProvider = ({ children }: DaoProviderProps): JSX.Element => {
 
   return (
     <DaoContext.Provider
-      value={{ daoInfo: { ...data } }}
+      value={{ daoInfo: { ...data } as TDao }}
       // eslint-disable-next-line react/no-children-prop
       children={children}
     />
