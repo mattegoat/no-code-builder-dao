@@ -1,5 +1,6 @@
 import { DAO_ADDRESS } from '@dao-auction/config'
 import {
+  useAllProposalsViaChain,
   useProposals,
   useTreasuryBalance,
   useTreasuryUSDValue,
@@ -9,7 +10,6 @@ import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
 import { ProposalSmall } from '../components/ProposalSmall'
-import ReactMarkdown from 'react-markdown'
 
 const DAO: NextPage = () => {
   const { daoInfo } = useDao()
@@ -17,7 +17,7 @@ const DAO: NextPage = () => {
   const treasuryBalance = useTreasuryBalance()
   const treasuryUSDValue = useTreasuryUSDValue()
 
-  const { details, transactions } = useProposals({
+  const { details, transactions, proposals, status, loading } = useProposals({
     collectionAddress: DAO_ADDRESS,
   })
 
@@ -45,16 +45,24 @@ const DAO: NextPage = () => {
         </div>
       </div>
       <div>
-        {details?.map((proposal, index) => (
-          <ProposalSmall
-            key={index}
-            proposalIndex={details.length - index}
-            proposalTitle={proposal.description.split('&&')[0]}
-            timeline={new Date(proposal.timeCreated).toLocaleDateString()}
-            status={status ? status[index] : null}
-            proposalAuthor={proposal.proposer}
-            threshold={parseInt(proposal.proposalThreshold)}></ProposalSmall>
-        ))}
+        {loading || !proposals ? (
+          <p>Loading...</p>
+        ) : (
+          details?.map((proposal, index) => (
+            <ProposalSmall
+              key={index}
+              proposalIndex={details.length - index}
+              proposalTitle={proposal.description.split('&&')[0]}
+              timeline={new Date(proposal.timeCreated).toLocaleDateString()}
+              status={status ? status[index] : null}
+              proposalAuthor={proposal.proposer}
+              threshold={parseInt(proposal.proposalThreshold)}
+              forCount={proposals[index]?.forVotes}
+              abstainCount={proposals[index]?.abstainVotes}
+              againstCount={proposals[index]?.againstVotes}
+            />
+          ))
+        )}
       </div>
     </div>
   )

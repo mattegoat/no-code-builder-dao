@@ -6,15 +6,29 @@ import { useEnsName } from 'wagmi'
 
 export function ProposalSmall({
   proposalIndex,
-  proposal,
+  proposalTitle,
+  timeline,
+  status,
+  proposalAuthor,
+  threshold,
+  forCount,
+  abstainCount,
+  againstCount,
 }: {
   proposalIndex: number
-  proposal: Proposal
+  proposalTitle: string
+  timeline: string
+  status: ProposalState | null
+  proposalAuthor: string
+  threshold: number
+  forCount: number
+  abstainCount: number
+  againstCount: number
 }) {
   const router = useRouter()
 
   const { data: ensName } = useEnsName({
-    address: proposal.proposer,
+    address: proposalAuthor,
   })
 
   const handleClick = () => {
@@ -25,16 +39,16 @@ export function ProposalSmall({
       <div className="p-5 flex flex-row rounded-md bg-neutral-focus justify-between">
         <h1 className="text-bold text-xl">{proposalIndex}</h1>
         <h1 className="font-extrabold	 text-xl">
-          {proposal.title} <span className="font-semibold text-lg">by</span>{' '}
+          {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
           <a
-            href={etherscanLink({ linkType: 'address', hash: proposal.proposer })}
+            href={etherscanLink({ linkType: 'address', hash: proposalAuthor })}
             className="text-secondary text-lg">
-            {ensName || shortenAddress(proposal.proposer)}
+            {ensName || shortenAddress(proposalAuthor)}
           </a>
         </h1>
         {/* <div className="badge badge-success p-3 font-bold">{status}</div> */}
         <div className="badge badge-success p-3">
-          {status ? getProposalStatus(proposal.status) : '...'}
+          {status !== null && getProposalStatus(status)}
         </div>
       </div>
       <div className="flex flex-row p-5 gap-5">
@@ -59,7 +73,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-success font-bold">{proposal.forCount}</span>
+                  <span className="text-success font-bold">{forCount}</span>
                 </div>
               </div>
             </div>
@@ -90,7 +104,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-error font-bold">{proposal.againstCount}</span>
+                  <span className="text-error font-bold">{againstCount}</span>
                 </div>
               </div>
             </div>
@@ -121,7 +135,7 @@ export function ProposalSmall({
               </div>
               <div className="avatar placeholder">
                 <div className="w-12 bg-neutral-focus text-neutral-content">
-                  <span className="text-info font-bold">{proposal.abstainCount}</span>
+                  <span className="text-info font-bold">{abstainCount}</span>
                 </div>
               </div>
             </div>
@@ -134,9 +148,7 @@ export function ProposalSmall({
         <div className="rounded-md flex flex-col w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
             <h1 className="font-bold text-lg pb-3  ">Threshold</h1>
-            <h1 className="font-bold text-lg pb-3 text-accent">
-              {proposal.proposalThreshold} votes
-            </h1>
+            <h1 className="font-bold text-lg pb-3 text-accent">{threshold} votes</h1>
           </div>
           <progress
             className="progress progress-accent w-full mt-3"

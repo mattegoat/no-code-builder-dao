@@ -23,6 +23,8 @@ export function useProposals({
 }) {
   const [isFetching, setIsFetching] = React.useState(false)
   const [status, setStatus] = React.useState<ProposalState[] | null>(null)
+  const [isFetchingInfo, setIsFetchingInfo] = React.useState(false)
+  const [proposalInfo, setProposalInfo] = React.useState<any[] | null>(null)
 
   const { daoInfo } = useDao()
 
@@ -47,11 +49,9 @@ export function useProposals({
     try {
       const _statuses = await Promise.all(
         proposals.map(async (p) => {
-          let ABI = ['function state(bytes32 _proposalId) public view returns (uint8)']
-          let iface = new ethers.utils.Interface(ABI)
           const _contract = new ethers.Contract(
             daoInfo.governorAddress || ethers.constants.AddressZero,
-            iface,
+            governorABI,
             provider
           )
           const result = await _contract.state(p.proposalId.valueOf())
@@ -67,13 +67,45 @@ export function useProposals({
     }
   }, [proposals, daoInfo])
 
+  const updateProposalInfo = useDeepCompareCallback(async () => {
+    if (!proposals) return
+    setIsFetchingInfo(true)
+    try {
+      const _info = await Promise.all(
+        proposals.map(async (p) => {
+          const _contract = new ethers.Contract(
+            daoInfo.governorAddress || ethers.constants.AddressZero,
+            governorABI,
+            provider
+          )
+          const result = await _contract.getProposal(p.proposalId.valueOf())
+          return result
+        })
+      )
+      setProposalInfo(_info)
+      setIsFetchingInfo(false)
+    } catch (error) {
+      console.error(error)
+      setProposalInfo(null)
+      setIsFetchingInfo(false)
+    }
+  }, [proposals, daoInfo])
+
   React.useEffect(() => {
     updateProposalsStatus()
   }, [collectionAddress, updateProposalsStatus])
 
+  React.useEffect(() => {
+    updateProposalInfo()
+  }, [collectionAddress, updateProposalInfo])
+
   return {
     transactions: transactions,
     details: proposals,
+    status,
+    proposals: proposalInfo,
+    error,
+    loading: isFetching || isFetchingInfo,
   }
 }
 
@@ -127,12 +159,14 @@ export const useProposalIds = (): string[] => {
     })
   )
 
-  return (
-    data?.nouns.nounsEvents.nodes.map(
-      (n) =>
-        (n.properties.properties as NounsBuilderGovernorProposalCreatedEventProperties)
-          .proposalId
-    ) || []
+  return React.useMemo(
+    () =>
+      data?.nouns.nounsEvents.nodes.map(
+        (n) =>
+          (n.properties.properties as NounsBuilderGovernorProposalCreatedEventProperties)
+            .proposalId
+      ) || [],
+    [data?.nouns.nounsEvents.nodes]
   )
 }
 
@@ -140,26 +174,30 @@ const countToIndices = (count: number | undefined) => {
   return typeof count === 'number' ? new Array(count).fill(0).map((_, i) => [i + 1]) : []
 }
 
-export const useAllProposalsViaChain = (): ProposalData => {
-  const { daoInfo } = useDao()
+const proposals: any[] = []
+const proposalStates: any[] = []
 
+export const useAllProposalsViaChain = ({
+  governorAddress,
+}: {
+  governorAddress: string
+}): ProposalData => {
   const proposalIds = useProposalIds()
-  const votingDelay = useVotingDelay(daoInfo.governorAddress)
-
-  const proposals: any[] = []
-  const proposalStates: any[] = []
+  // const votingDelay = useVotingDelay(governorAddress)
 
   const formattedLogs = useProposals({ collectionAddress: DAO_ADDRESS })
+
+  React.useEffect(() => console.log(formattedLogs), [formattedLogs])
 
   // Early return until events are fetched
   return React.useMemo(() => {
     const logs = formattedLogs ?? []
-    if (proposals.length && !logs.transactions?.length) {
+    if (proposalIds.length === 0 || (proposals.length && !logs.transactions?.length)) {
       return { data: [], loading: true }
     }
 
     return {
-      data: proposals.map((p, i) => {
+      data: proposals?.map((p, i) => {
         const proposal = p?.[0]
         const description: string = logs.details[i]?.description?.replace(/\\n/g, '\n')
         return {
@@ -190,5 +228,5 @@ export const useAllProposalsViaChain = (): ProposalData => {
       }),
       loading: false,
     }
-  }, [formattedLogs, proposalStates, proposals, votingDelay])
+  }, [formattedLogs])
 }
