@@ -61,7 +61,7 @@ const ProposalPage: NextPage = () => {
 
   return (
     <div>
-      <div className="justify-between w-full pt-7 flex flex-row">
+      <div className="justify-between w-full pt-7 flex flex-col sm:flex-row gap-4">
         {' '}
         <button onClick={goBack} className={`btn btn-outline btn-accent btn-square`}>
           <svg
@@ -77,15 +77,15 @@ const ProposalPage: NextPage = () => {
             />
           </svg>
         </button>
-        <h1 className="m-auto font-bold text-lg lg:text-2xl">
+        <h1 className="m-auto text-left sm:text-center font-bold text-lg lg:text-2xl">
           {proposal?.description?.split('&&')[0]}
         </h1>
         <div className="badge badge-success p-3 my-auto font-bold">
           {proposalStatus !== null && getProposalStatus(proposalStatus)}
         </div>
       </div>
-      <div className="justify-center w-full pt-3">
-        <h1 className="m-auto text-md lg:text-xl text-center">
+      <div className=" w-full pt-4">
+        <h1 className="m-auto text-md lg:text-xl text-left">
           Proposed by{' '}
           <a
             className="text-secondary"
@@ -104,8 +104,8 @@ const ProposalPage: NextPage = () => {
       {/* TODO PROPOSED TX */}
       <h1 className="font-bold text-xl py-5 text-primary">Voting Stats</h1>
 
-      <div className="flex flex-row gap-4 mb-4">
-        <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
+      <div className="flex flex-row flex-wrap md:flex-nowrap gap-4 mb-4">
+        <div className="flex flex-col gap-4 p-4 outline w-full md:w-1/3 bg-neutral card">
           <h1 className="text-success text-center font-bold text-xl pb-6">For</h1>
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.forVotes}</h1>
           <progress
@@ -113,7 +113,7 @@ const ProposalPage: NextPage = () => {
             value="10"
             max="100"></progress>
         </div>
-        <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
+        <div className="flex flex-col gap-4 p-4 outline w-full md:w-1/3 bg-neutral card">
           <h1 className="text-error text-center font-bold text-xl pb-6">Against</h1>
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.againstVotes}</h1>
           <progress
@@ -121,7 +121,7 @@ const ProposalPage: NextPage = () => {
             value="10"
             max="100"></progress>
         </div>
-        <div className="flex flex-col gap-4 p-4 outline w-1/3 bg-neutral card">
+        <div className="flex flex-col gap-4 p-4 outline w-full md:w-1/3 bg-neutral card">
           <h1 className="text-info text-center font-bold text-xl pb-6">Abstain</h1>
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.abstainVotes}</h1>
           <progress
@@ -130,34 +130,38 @@ const ProposalPage: NextPage = () => {
             max="100"></progress>
         </div>
       </div>
-      <div className="flex flex-row gap-4 mb-4">
-        <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
-          <h1 className=" font-bold text-xl pb-2">Voters</h1>
-          <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            {detail?.forVotes + detail?.abstainVotes + detail?.againstVotes}{' '}
-            <span className="text-sm text-primary-content">/{ownerCount}</span>
-          </h1>
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row gap-4 w-full">
+          <div className="flex flex-col gap-4 px-10 py-4 outline w-full bg-neutral card">
+            <h1 className=" font-bold text-xl pb-2">Voters</h1>
+            <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
+              {detail?.forVotes + detail?.abstainVotes + detail?.againstVotes}{' '}
+              <span className="text-sm text-primary-content">/{ownerCount}</span>
+            </h1>
+          </div>
+          <div className="flex flex-col gap-4 px-10 py-4 outline w-full  bg-neutral card">
+            <h1 className="font-bold text-xl pb-2">Threshold</h1>
+            <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
+              {proposal?.proposalThreshold}
+            </h1>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
-          <h1 className="font-bold text-xl pb-2">Threshold</h1>
-          <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            {proposal?.proposalThreshold}
-          </h1>
-        </div>
-        <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
-          <h1 className="font-bold text-xl pb-2">Ends</h1>
-          <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
-            {proposal?.voteEnd
-              ? new Date(parseInt(proposal?.voteEnd) * 1000).toLocaleString()
-              : 'n/a'}
-          </h1>
-        </div>
-        <div className="flex flex-col gap-4 px-10 py-4 outline w-1/3 bg-neutral card">
-          <h1 className="font-bold text-xl pb-2">% of Treasury</h1>
-          <div
-            className="radial-progress text-secondary h-13 w-13 ml-auto"
-            style={{ '--value': 70 } as React.CSSProperties}>
-            70%
+        <div className="flex flex-col sm:flex-row gap-4 w-full">
+          <div className="flex flex-col gap-4 px-10 py-4 outline w-full md:w-1/2 bg-neutral card">
+            <h1 className="font-bold text-xl pb-2">Ends</h1>
+            <h1 className=" text-right font-bold text-3xl text-secondary mt-auto pb-4">
+              {proposal?.voteEnd
+                ? new Date(parseInt(proposal?.voteEnd) * 1000).toLocaleString()
+                : 'n/a'}
+            </h1>
+          </div>
+          <div className="flex flex-col gap-4 px-10 py-4 outline w-full md:w-1/2 bg-neutral card">
+            <h1 className="font-bold text-xl pb-2">% of Treasury</h1>
+            <div
+              className="radial-progress text-secondary h-13 w-13 ml-auto"
+              style={{ '--value': 70 } as React.CSSProperties}>
+              70%
+            </div>
           </div>
         </div>
       </div>
