@@ -101,10 +101,6 @@ const ProposalPage: NextPage = () => {
     write: castVote,
   } = useContractWrite(config)
 
-  useEffect(() => {
-    console.log(error as any)
-  }, [error])
-
   return (
     <div>
       <div className="justify-between w-full pt-7 flex flex-col sm:flex-row gap-4">

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AuctionCountdown from './AuctionCountdown'
 import TokenThumbnail from './TokenThumbnail'
 import TokenTitle from './TokenTitle'
 import { AuthCheck } from '../../components/elements'
-import { useActiveAuction } from '../hooks/useActiveAuction'
+import { auctionABI, useActiveAuction } from '../hooks/useActiveAuction'
 import { useAuth } from 'hooks/useAuth'
 import { Bidder } from './TokenRenderer'
 import {
@@ -13,6 +13,8 @@ import {
 import { etherscanLink } from '@dao-auction/lib'
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
 import { useAuctionBids } from '@dao-auction/hooks'
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useDao } from 'context/DaoProvider'
 
 /**
  * TODO:
@@ -34,8 +36,12 @@ export default function CurrentAuction({
   ...props
 }: CurrentAuctionProps) {
   const { isConnected } = useAuth()
+  const { daoInfo } = useDao()
 
   const { bids } = useAuctionBids({ collectionAddress: daoAddress, tokenId })
+
+  const [auctionEnded, setAuctionEnded] = useState(false)
+  const [auctionTimer, setAuctionTimer] = useState(false)
 
   const {
     auctionData,
@@ -46,6 +52,41 @@ export default function CurrentAuction({
     isValidBid,
     totalSupply,
   } = useActiveAuction(daoAddress)
+
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: daoInfo.auctionAddress,
+    contractInterface: auctionABI,
+    functionName: 'settleCurrentAndCreateNewAuction',
+    args: [],
+  })
+  const {
+    data,
+    isLoading: isSettling,
+    isSuccess,
+    write: settle,
+  } = useContractWrite(config)
+
+  useEffect(() => {
+    if (!auctionData) return
+
+    const timeLeft = Number(auctionData.endTime) - Math.floor(Date.now() / 1000)
+
+    if (auctionData && timeLeft <= 0) {
+      setAuctionEnded(true)
+    } else {
+      setAuctionEnded(false)
+      const timer = setTimeout(
+        () => {
+          setAuctionTimer(!auctionTimer)
+        },
+        timeLeft > 300 ? 30000 : 1000
+      )
+
+      return () => {
+        clearTimeout(timer)
+      }
+    }
+  }, [auctionTimer, auctionData])
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-[1440px]" {...props}>
@@ -82,10 +123,13 @@ export default function CurrentAuction({
                 <button
                   className="btn btn-square px-2 bg-primary"
                   onClick={createBid}
-                  disabled={!isConnected}>
-                  Bid
+                  disabled={!isConnected || createBidLoading}>
+                  {createBidLoading ? '..' : 'Bid'}
                 </button>
               </div>
+              {createBidSuccess && (
+                <span className="text-success">Bid successfuly submitted.</span>
+              )}
             </div>
           </span>
           <div className="overflow-x-auto">
@@ -145,7 +189,14 @@ export default function CurrentAuction({
               </div>
             )}
           {/* TODO button if not settle && auction ended + hide bids if not settled*/}
-          {<button className="btn btn-accent btn-outline">Settle Auction</button>}
+          {isConnected && auctionEnded && (
+            <button
+              className="btn btn-accent btn-outline"
+              disabled={!settle}
+              onClick={() => settle?.()}>
+              {isSettling ? 'Settling..' : 'Settle Auction'}
+            </button>
+          )}
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
           <label htmlFor="my-modal-4" className="modal cursor-pointer">
             <label className="modal-box relative" htmlFor="">

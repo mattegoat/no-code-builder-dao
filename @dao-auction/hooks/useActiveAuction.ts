@@ -1,10 +1,13 @@
 import * as React from 'react'
 import { useDaoAuctionQuery } from './useDaoAuctionQuery'
-import { BigNumber as EthersBN, ContractTransaction } from 'ethers'
+import { BigNumber as EthersBN, ContractTransaction, ethers } from 'ethers'
 import { parseUnits } from '@ethersproject/units'
-import { useEnsName } from "wagmi"
+import { useEnsName } from 'wagmi'
 import { useBidder } from './useBidder'
 import { useNounsProtocol } from './useNounsProtocol'
+import AuctionABI from '../lib/abi/Auction.json'
+
+export const auctionABI = new ethers.utils.Interface(AuctionABI)
 
 export function useActiveAuction(
   /**
@@ -13,14 +16,18 @@ export function useActiveAuction(
   daoAddress: string
 ) {
   const { activeAuction } = useDaoAuctionQuery({ collectionAddress: daoAddress })
-  
+
   const { bidder } = useBidder(activeAuction?.highestBidder as string)
 
   const minBidAmount = React.useMemo(() => {
-    if (activeAuction?.highestBidPrice?.chainTokenPrice?.decimal && activeAuction?.minBidIncrementPercentage) {
+    if (
+      activeAuction?.highestBidPrice?.chainTokenPrice?.decimal &&
+      activeAuction?.minBidIncrementPercentage
+    ) {
       const minBidValue =
-        ((activeAuction?.highestBidPrice.chainTokenPrice.decimal * (activeAuction?.minBidIncrementPercentage / 100))
-          + activeAuction?.highestBidPrice.chainTokenPrice.decimal)
+        activeAuction?.highestBidPrice.chainTokenPrice.decimal *
+          (activeAuction?.minBidIncrementPercentage / 100) +
+        activeAuction?.highestBidPrice.chainTokenPrice.decimal
       return minBidValue
     } else {
       /* @ts-ignore */
@@ -45,19 +52,16 @@ export function useActiveAuction(
       minBidAmount: minBidAmount,
       /* @ts-ignore */
       reservePrice: activeAuction?.reservePrice?.chainTokenPrice?.raw,
+      status: activeAuction?.status,
     }
-  }, [
-    activeAuction,
-    bidder,
-    minBidAmount,
-  ])
+  }, [activeAuction, bidder, minBidAmount])
 
-  const { BuilderAuction, BuilderToken} = useNounsProtocol({
+  const { BuilderAuction, BuilderToken } = useNounsProtocol({
     daoAddress: daoAddress,
     auctionAddress: auctionData?.address,
-    metadataRendererAddress: auctionData?.metadata
+    metadataRendererAddress: auctionData?.metadata,
   })
-  
+
   const [totalSupply, setTotalSupply] = React.useState<number | undefined>()
 
   React.useEffect(() => {
@@ -77,9 +81,9 @@ export function useActiveAuction(
   const [createBidError, setCreateBidError] = React.useState(false)
   const [createBidTx, setCreateBidTx] = React.useState<ContractTransaction | undefined>()
   const [isValidBid, setIsValidBid] = React.useState(false)
-  
+
   const [bidAmount, setBidAmount] = React.useState('0')
- 
+
   const updateBidAmount = React.useCallback(
     (value: string) => {
       let newValue: EthersBN
