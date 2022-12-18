@@ -35,6 +35,7 @@
     font-size: 23px;
     width: calc(100% + 40px);
     transform: translateX(-20px);
+    color: hsl(var(--nc));
   }
 
   .markdown details{

@@ -55,7 +55,7 @@ export function ProposalSmall({
       </div>
       <div className="flex flex-row flex-wrap md:flex-nowrap p-5 gap-5">
         <div className="card flex flex-col w-full md:w-1/4">
-          <div className="card p-5 outline flex flex-col w-full">
+          <div className="card p-5 card-bordered flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-success">For</h1>
             <span className="text-success font-bold text-center text-3xl">
               {forCount}
@@ -67,7 +67,7 @@ export function ProposalSmall({
             max={totalVoters}></progress>
         </div>
         <div className="card flex flex-col w-full md:w-1/4">
-          <div className="card p-5 outline flex flex-col w-full">
+          <div className="card p-5 card-bordered flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-error">Against</h1>
             <span className="text-error font-bold text-center text-3xl">
               {againstCount}
@@ -79,7 +79,9 @@ export function ProposalSmall({
             max={totalVoters}></progress>
         </div>
         <div className="card flex flex-col w-full md:w-1/4">
-          <div className="card p-5 outline flex flex-col w-full">
+          <div
+            className="card card-bordered p-5 flex flex-col w-full"
+            style={{ borderColor: 'hsl(var(--nc))!important' }}>
             <h1 className="font-bold text-lg pb-3 text-info">Abstain</h1>
             <span className="text-info font-bold text-center text-3xl">
               {abstainCount}
@@ -91,7 +93,7 @@ export function ProposalSmall({
             max={totalVoters}></progress>
         </div>
         <div className="card flex flex-col w-full md:w-1/4">
-          <div className="card p-5 outline flex flex-col w-full h-full justify-between">
+          <div className="card p-5 card-bordered flex flex-col w-full h-full justify-between">
             <h1 className="font-bold text-lg text-accent">Threshold</h1>
             <h1 className="font-bold text-lg text-center  text-accent">
               {threshold} votes

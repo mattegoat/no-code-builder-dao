@@ -11,7 +11,7 @@ module.exports = {
     // logs: true,
     rtl: false,
     prefix: '',
-    darkTheme: 'cyberpunk',
+    darkTheme: 'black',
   },
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
