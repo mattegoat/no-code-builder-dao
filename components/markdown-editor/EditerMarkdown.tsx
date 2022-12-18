@@ -18,8 +18,7 @@ const EditerMarkdown = dynamic(
   { ssr: false }
 )
 
-function EditerMd() {
-  const [value, setValue] = useState<string | undefined>('**Hello world!!!**')
+function EditerMd({ value, setValue }: { value: string | undefined; setValue: any }) {
   return (
     <div data-color-mode="dark" className="w-full flex flex-row gap-4">
       <MDEditor
