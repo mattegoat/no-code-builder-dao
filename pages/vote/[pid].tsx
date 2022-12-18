@@ -15,6 +15,7 @@ import { shortenAddress } from './../../utils'
 import ReactHtmlParser from 'react-html-parser'
 import classes from './styles.module.css'
 import { getProposalStatus } from '@dao-auction/lib/proposal'
+import { Status } from 'components/Status'
 
 const ProposalPage: NextPage = () => {
   const router = useRouter()
@@ -80,9 +81,9 @@ const ProposalPage: NextPage = () => {
         <h1 className="m-auto text-left sm:text-center font-bold text-lg lg:text-2xl">
           {proposal?.description?.split('&&')[0]}
         </h1>
-        <div className="badge badge-success p-3 my-auto font-bold">
-          {proposalStatus !== null && getProposalStatus(proposalStatus)}
-        </div>
+        {proposalStatus !== null && (
+          <Status proposalStatus={getProposalStatus(proposalStatus)} />
+        )}
       </div>
       <div className=" w-full pt-4">
         <h1 className="m-auto text-md lg:text-xl text-left">

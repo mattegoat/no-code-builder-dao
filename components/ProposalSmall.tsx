@@ -3,6 +3,7 @@ import { getProposalStatus } from '@dao-auction/lib/proposal'
 import { Proposal, ProposalState } from '@dao-auction/types/proposal'
 import { etherscanLink, shortenAddress } from '@dao-auction/lib'
 import { useEnsName } from 'wagmi'
+import { Status } from 'components/Status'
 
 export function ProposalSmall({
   proposalIndex,
@@ -50,9 +51,7 @@ export function ProposalSmall({
         </h1>
         {/* <div className="badge badge-success p-3 font-bold">{status}</div> */}
         {/* TODO: Badge style */}
-        <div className="badge badge-success p-3">
-          {status !== null && getProposalStatus(status)}
-        </div>
+        {status !== null && <Status proposalStatus={getProposalStatus(status)} />}
       </div>
       <div className="flex flex-row flex-wrap md:flex-nowrap p-5 gap-5">
         <div className="rounded-md flex flex-col w-full md:w-1/4">
