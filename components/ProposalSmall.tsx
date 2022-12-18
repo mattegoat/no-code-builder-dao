@@ -38,9 +38,9 @@ export function ProposalSmall({
   }
   return (
     <div className="w-full rounded-md mt-4 bg-neutral">
-      <div className="p-5 flex flex-row rounded-md bg-neutral-focus justify-between">
-        <h1 className="text-bold text-xl">{proposalIndex}</h1>
-        <h1 className="font-extrabold	 text-xl">
+      <div className="p-5 flex flex-col md:flex-row rounded-md bg-neutral-focus justify-between gap-3">
+        <h1 className="text-bold text-xl pr-3">{proposalIndex}</h1>
+        <h1 className="font-extrabold	 text-xl pr-3">
           {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
           <a
             href={etherscanLink({ linkType: 'address', hash: proposalAuthor })}
@@ -54,8 +54,8 @@ export function ProposalSmall({
           {status !== null && getProposalStatus(status)}
         </div>
       </div>
-      <div className="flex flex-row p-5 gap-5">
-        <div className="rounded-md flex flex-col w-1/4">
+      <div className="flex flex-row flex-wrap md:flex-nowrap p-5 gap-5">
+        <div className="rounded-md flex flex-col w-full md:w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-success">For</h1>
             <span className="text-success font-bold text-center text-3xl">
@@ -67,7 +67,7 @@ export function ProposalSmall({
             value={forCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-1/4">
+        <div className="rounded-md flex flex-col w-full md:w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-error">Against</h1>
             <span className="text-error font-bold text-center text-3xl">
@@ -79,7 +79,7 @@ export function ProposalSmall({
             value={againstCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-1/4">
+        <div className="rounded-md flex flex-col w-full md:w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-info">Abstain</h1>
             <span className="text-info font-bold text-center text-3xl">
@@ -91,7 +91,7 @@ export function ProposalSmall({
             value={abstainCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-1/4">
+        <div className="rounded-md flex flex-col w-full md:w-1/4">
           <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
             <h1 className="font-bold text-lg   ">Threshold</h1>
             <h1 className="font-bold text-lg text-center  text-accent">
