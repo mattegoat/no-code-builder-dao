@@ -1,6 +1,7 @@
 import 'styles/globals.css'
 import type { AppProps } from 'next/app'
 import { AppWrapper, Header } from './../components'
+import { Footer } from 'components/Footer'
 
 function NetLabel({ Component, pageProps }: AppProps) {
   return (
@@ -11,6 +12,11 @@ function NetLabel({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </main>
       </div>
+      <Footer
+        twitter="test"
+        discord="test"
+        etherscan="https://etherscan.com/0xd2E7684Cf3E2511cc3B4538bB2885Dc206583076"
+      />
     </AppWrapper>
   )
 }
