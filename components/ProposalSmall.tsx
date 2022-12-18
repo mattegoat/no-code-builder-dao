@@ -38,10 +38,10 @@ export function ProposalSmall({
     router.push(`/vote/${proposalIndex}`)
   }
   return (
-    <div className="w-full rounded-md mt-4 bg-neutral">
-      <div className="p-5 flex flex-col md:flex-row rounded-md bg-neutral-focus justify-between gap-3">
-        <h1 className="text-bold text-xl pr-3">{proposalIndex}</h1>
-        <h1 className="font-extrabold	 text-xl pr-3">
+    <div className="w-full card mt-4 bg-neutral ">
+      <div className="p-5 flex flex-col md:flex-row card bg-neutral-focus justify-between gap-3">
+        <h1 className="text-bold text-xl pr-3 text-neutral-content">{proposalIndex}</h1>
+        <h1 className="font-extrabold text-neutral-content	 text-xl pr-3">
           {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
           <a
             href={etherscanLink({ linkType: 'address', hash: proposalAuthor })}
@@ -54,8 +54,8 @@ export function ProposalSmall({
         {status !== null && <Status proposalStatus={getProposalStatus(status)} />}
       </div>
       <div className="flex flex-row flex-wrap md:flex-nowrap p-5 gap-5">
-        <div className="rounded-md flex flex-col w-full md:w-1/4">
-          <div className="rounded-md p-5 outline flex flex-col w-full">
+        <div className="card flex flex-col w-full md:w-1/4">
+          <div className="card p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-success">For</h1>
             <span className="text-success font-bold text-center text-3xl">
               {forCount}
@@ -66,8 +66,8 @@ export function ProposalSmall({
             value={forCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-full md:w-1/4">
-          <div className="rounded-md p-5 outline flex flex-col w-full">
+        <div className="card flex flex-col w-full md:w-1/4">
+          <div className="card p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-error">Against</h1>
             <span className="text-error font-bold text-center text-3xl">
               {againstCount}
@@ -78,8 +78,8 @@ export function ProposalSmall({
             value={againstCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-full md:w-1/4">
-          <div className="rounded-md p-5 outline flex flex-col w-full">
+        <div className="card flex flex-col w-full md:w-1/4">
+          <div className="card p-5 outline flex flex-col w-full">
             <h1 className="font-bold text-lg pb-3 text-info">Abstain</h1>
             <span className="text-info font-bold text-center text-3xl">
               {abstainCount}
@@ -90,9 +90,9 @@ export function ProposalSmall({
             value={abstainCount}
             max={totalVoters}></progress>
         </div>
-        <div className="rounded-md flex flex-col w-full md:w-1/4">
-          <div className="rounded-md p-5 outline flex flex-col w-full h-full justify-between">
-            <h1 className="font-bold text-lg   ">Threshold</h1>
+        <div className="card flex flex-col w-full md:w-1/4">
+          <div className="card p-5 outline flex flex-col w-full h-full justify-between">
+            <h1 className="font-bold text-lg text-accent">Threshold</h1>
             <h1 className="font-bold text-lg text-center  text-accent">
               {threshold} votes
             </h1>
@@ -103,7 +103,7 @@ export function ProposalSmall({
             max={threshold}></progress>
         </div>
       </div>
-      <div className="p-5 flex flex-row rounded-md justify-end">
+      <div className="p-5 flex flex-row card justify-end">
         <button className="btn outline gap-2" onClick={handleClick}>
           Read All
           <svg
@@ -113,7 +113,7 @@ export function ProposalSmall({
             fillRule="evenodd"
             clipRule="evenodd">
             <path
-              fill="hsl(var(--pc))"
+              fill="hsl(var(--nc))"
               d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"
             />
           </svg>
