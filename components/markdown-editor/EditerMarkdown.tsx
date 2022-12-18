@@ -35,7 +35,7 @@ function EditerMd() {
               {' '}
               <div
                 className="flex items-center flex-shrink-0 text-white mr-6"
-                style={{ cursor: 'pointer' }}>
+                style={{ cursor: 'pointer', height: '60px', width: '60px' }}>
                 <Image src={logo} alt="logo" />
               </div>
               <button className="btn btn-circle btn-primary swap swap-rotate">
