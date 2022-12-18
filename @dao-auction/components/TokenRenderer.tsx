@@ -26,11 +26,11 @@ export default function TokenRenderer({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1440px]" {...props}>
       <TokenThumbnail tokenId={tokenId} daoAddress={daoAddress} />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 items-center lg:items-start">
         <TokenTitle daoAddress={daoAddress} tokenId={tokenId} />
-        <div className="flex flex-row gap-10 pt-2">
+        <div className="flex flex-col md:flex-row gap-10 pt-2">
           <TokenHolder daoAddress={daoAddress} tokenId={tokenId} />
-          <div className="divider divider-horizontal  color-primary"></div>
+          <div className="divider divider-horizontal  color-primary hidden md:flex"></div>
           <TokenWinningBid daoAddress={daoAddress} tokenId={tokenId} />
         </div>
         <span className="text-sm md:text-md lg:text-lg	font-bold pt-5">
@@ -61,7 +61,7 @@ export default function TokenRenderer({
               : 'n/a'}
           </span>
         </span>
-        <div className="flex flex-row gap-4 pt-5">
+        <div className="flex flex-col sm:flex-row gap-4 pt-5">
           <label htmlFor="my-modal-4" className="btn  btn-primary">
             Bid History
           </label>
