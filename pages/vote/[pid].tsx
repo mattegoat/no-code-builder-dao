@@ -24,6 +24,7 @@ import { Status } from 'components/Status'
 import Select from 'react-select'
 import { useDao } from 'context/DaoProvider'
 import { governorABI } from '@dao-auction/hooks/useAllProposals'
+import { etherscanLink } from '@dao-auction/lib'
 
 enum VoteOption {
   Against,
@@ -49,6 +50,7 @@ const ProposalPage: NextPage = () => {
     details: proposals,
     proposals: details,
     status,
+    transactions,
   } = useProposals({
     collectionAddress: DAO_ADDRESS,
   })
@@ -65,6 +67,11 @@ const ProposalPage: NextPage = () => {
   const detail = useMemo(
     () => (details ? details[details.length - pid] : null),
     [pid, details]
+  )
+
+  const transaction = useMemo(
+    () => (transactions ? transactions[transactions.length - pid] : null),
+    [pid, transactions]
   )
 
   const proposalStatus = useMemo(
@@ -131,7 +138,15 @@ const ProposalPage: NextPage = () => {
             href={`https://etherscan.io/address/${proposal?.proposer}`}>
             {ensName || shortenAddress(proposal?.proposer)}
           </a>{' '}
-          at <a>{}</a>
+          at block{' '}
+          <a
+            className="text-secondary"
+            href={etherscanLink({
+              linkType: 'tx',
+              hash: transaction?.transactionHash || '',
+            })}>
+            #{transaction?.blockNumber}
+          </a>
         </h1>
       </div>
       <h1 className="font-bold text-xl pt-5 text-primary">Description</h1>

@@ -44,6 +44,7 @@ export const DAO_PROPOSALS_QUERY = gql`
           transactionInfo {
             transactionHash
             blockTimestamp
+            blockNumber
           }
         }
       }
