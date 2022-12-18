@@ -21,7 +21,7 @@ export function Header({ daoAddress }: { daoAddress: string }) {
   const { treasuryAddress } = useAllAddresses({ collectionAddress: daoAddress })
 
   return (
-    <div className=" ">
+    <div className="w-full ">
       <nav className="flex items-center justify-between flex-wrap p-3">
         <div
           className="flex items-center flex-shrink-0 text-white mr-6"

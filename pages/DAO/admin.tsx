@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import * as React from 'react'
-import MarkdownEditor from '../../components/MarkdownEditor'
+import EditerMd from '../../components/markdown-editor/EditerMarkdown'
 
 const DAO: NextPage = () => {
   const [markdown, setMarkdown] = React.useState('')
@@ -10,7 +10,7 @@ const DAO: NextPage = () => {
   }
   return (
     <div className="pt-6 flex flex-row gap-3 w-full" style={{ height: '80vh' }}>
-      <MarkdownEditor value={markdown} onChange={handleChange} />
+      <EditerMd />
     </div>
   )
 }
