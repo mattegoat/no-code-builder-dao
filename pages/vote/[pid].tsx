@@ -164,24 +164,30 @@ const ProposalPage: NextPage = () => {
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.forVotes}</h1>
           <progress
             className="progress progress-success w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={detail?.forVotes}
+            max={
+              detail?.forVotes + detail?.againstVotes + detail?.abstainVotes
+            }></progress>
         </div>
         <div className="flex flex-col gap-4 p-4 outline w-full md:w-1/3 bg-neutral card">
           <h1 className="text-error text-center font-bold text-xl pb-6">Against</h1>
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.againstVotes}</h1>
           <progress
             className="progress progress-error w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={detail?.againstVotes}
+            max={
+              detail?.forVotes + detail?.againstVotes + detail?.abstainVotes
+            }></progress>
         </div>
         <div className="flex flex-col gap-4 p-4 outline w-full md:w-1/3 bg-neutral card">
           <h1 className="text-info text-center font-bold text-xl pb-6">Abstain</h1>
           <h1 className=" text-center font-bold text-3xl pb-3">{detail?.abstainVotes}</h1>
           <progress
             className="progress progress-info w-full mt-3"
-            value="10"
-            max="100"></progress>
+            value={detail?.abstainVotes}
+            max={
+              detail?.forVotes + detail?.againstVotes + detail?.abstainVotes
+            }></progress>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-4 mb-4">
