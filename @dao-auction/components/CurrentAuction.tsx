@@ -144,6 +144,8 @@ export default function CurrentAuction({
                 </label>
               </div>
             )}
+          {/* TODO button if not settle && auction ended + hide bids if not settled*/}
+          {<button className="btn btn-accent btn-outline">Settle Auction</button>}
           <input type="checkbox" id="my-modal-4" className="modal-toggle" />
           <label htmlFor="my-modal-4" className="modal cursor-pointer">
             <label className="modal-box relative" htmlFor="">
