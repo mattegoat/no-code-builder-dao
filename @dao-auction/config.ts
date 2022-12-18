@@ -49,6 +49,8 @@ export const DAO_ADDRESS = process.env.NEXT_PUBLIC_DAO_ADDRESS ?? ''
 
 const INFURA_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID
 
+export const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS ?? ''
+
 export const createNetworkHttpUrl = (network: string): string => {
   const custom = process.env[`NEXT_PUBLIC_${network.toUpperCase()}_JSONRPC`]
   return custom || `https://${network}.infura.io/v3/${INFURA_PROJECT_ID}`

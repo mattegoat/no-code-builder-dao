@@ -1,7 +1,6 @@
 import '@uiw/react-md-editor/markdown-editor.css'
 import '@uiw/react-markdown-preview/markdown.css'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
 import classes from './styles.module.css'
 import logo from '/public/favicon.png'
 import Image from 'next/image'
