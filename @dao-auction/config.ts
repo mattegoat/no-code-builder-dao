@@ -1,4 +1,6 @@
 import { ChainId } from '@usedapp/core'
+import { ethers } from 'ethers'
+import Config from '../config/config.json'
 
 interface ExternalContractAddresses {
   lidoToken: string | undefined
@@ -41,15 +43,15 @@ export const cacheKey = (bucket: CacheBucket, ...parts: (string | number)[]) => 
   return [bucket.name, bucket.version, ...parts].join('-').toLowerCase()
 }
 
-export const CHAIN_ID: SupportedChains = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID ?? '4')
+export const CHAIN_ID: SupportedChains = parseInt(Config.CHAIN_ID ?? '4')
 
 export const ETHERSCAN_API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY ?? ''
 
-export const DAO_ADDRESS = process.env.NEXT_PUBLIC_DAO_ADDRESS ?? ''
+export const DAO_ADDRESS = Config.DAO_ADDRESS ?? ''
 
 const INFURA_PROJECT_ID = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID
 
-export const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS ?? ''
+export const ADMIN_ADDRESS = Config.ADMIN_ADDRESS ?? ethers.constants.AddressZero
 
 export const createNetworkHttpUrl = (network: string): string => {
   const custom = process.env[`NEXT_PUBLIC_${network.toUpperCase()}_JSONRPC`]
