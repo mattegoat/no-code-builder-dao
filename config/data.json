@@ -1,3 +1,3 @@
 {
-  "markdown": "<details>\n  <summary>Click me</summary>\n  \n  ### Heading\n  1. Foo\n  2. Bar\n     * Baz\n     * Qux\n\n  ### Some Code\n  ```js\n  function logSomething(something) {\n    console.log('Something', something);\n  }\n  ```\n</details>"
+  "markdown": ""
 }
