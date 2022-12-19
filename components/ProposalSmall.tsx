@@ -6,8 +6,6 @@ import { useEnsName } from 'wagmi'
 import { Status } from 'components/Status'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import en from 'dayjs/locale/en'
-import { AVERAGE_BLOCK_TIME_IN_SECS } from 'utils/constants'
 import { useCountdown } from '@dao-auction'
 
 dayjs.extend(relativeTime)
