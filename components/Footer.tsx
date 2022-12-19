@@ -14,7 +14,7 @@ export function Footer() {
           Twitter
         </a>
         <a
-          href={etherscanLink({ linkType: 'contract', hash: DAO_ADDRESS })}
+          href={etherscanLink({ linkType: 'address', hash: DAO_ADDRESS })}
           target="_blank"
           rel="noreferrer"
           className="font-semibold text-md">
