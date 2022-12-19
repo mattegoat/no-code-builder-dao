@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { DAO_ADDRESS } from '@dao-auction/config'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
+  useCountdown,
   useProposals,
   useStats,
   useTreasuryBalance,
@@ -101,6 +102,9 @@ const ProposalPage: NextPage = () => {
     write: castVote,
   } = useContractWrite(config)
 
+  const { countdownString: countdownEnd } = useCountdown(Number(proposal?.voteEnd))
+  const { countdownString: countdownStart } = useCountdown(Number(proposal?.voteStart))
+
   return (
     <div>
       <div className="justify-between w-full pt-7 flex flex-col sm:flex-row gap-4">
@@ -122,9 +126,21 @@ const ProposalPage: NextPage = () => {
         <h1 className="m-auto text-left sm:text-center font-bold text-lg lg:text-2xl">
           {proposal?.description?.split('&&')[0]}
         </h1>
-        {proposalStatus !== null && (
-          <Status proposalStatus={getProposalStatus(proposalStatus)} />
-        )}
+        <div className="flex flex-row gap-4 justify-center items-center">
+          {proposalStatus !== null && getProposalStatus(proposalStatus) === 'Active' && (
+            <div className="badge badge-neutral p-3 my-auto font-bold">
+              Ends in {countdownEnd}
+            </div>
+          )}
+          {proposalStatus !== null && getProposalStatus(proposalStatus) === 'Pending' && (
+            <div className="badge badge-neutral p-3 my-auto font-bold">
+              Starts in {countdownStart}
+            </div>
+          )}
+          {proposalStatus !== null && (
+            <Status proposalStatus={getProposalStatus(proposalStatus)} />
+          )}
+        </div>
       </div>
       <div className=" w-full pt-4">
         <h1 className="m-auto text-md lg:text-xl text-left">
