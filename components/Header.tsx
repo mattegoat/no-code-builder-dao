@@ -60,8 +60,7 @@ export function Header({ daoAddress }: { daoAddress: string }) {
               target="_blank"
               rel="noreferrer">
               <button className="btn btn-outline btn-secondary">
-                Treasury Ξ{' '}
-                {parseInt(ethers.utils.formatEther(treasuryBalance)).toFixed(3)}
+                Treasury Ξ {Number(ethers.utils.formatEther(treasuryBalance)).toFixed(3)}
               </button>
             </a>
             <Connect />
