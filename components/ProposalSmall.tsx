@@ -4,11 +4,19 @@ import { Proposal, ProposalState } from '@dao-auction/types/proposal'
 import { etherscanLink, shortenAddress } from '@dao-auction/lib'
 import { useEnsName } from 'wagmi'
 import { Status } from 'components/Status'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import en from 'dayjs/locale/en'
+import { AVERAGE_BLOCK_TIME_IN_SECS } from 'utils/constants'
+import { useCountdown } from '@dao-auction'
+
+dayjs.extend(relativeTime)
 
 export function ProposalSmall({
   proposalIndex,
   proposalTitle,
-  timeline,
+  endTime,
+  startTime,
   status,
   proposalAuthor,
   threshold,
@@ -16,10 +24,12 @@ export function ProposalSmall({
   abstainCount,
   againstCount,
   totalVoters,
+  currenBlock,
 }: {
   proposalIndex: number
   proposalTitle: string
-  timeline: string
+  endTime: string
+  startTime: string
   status: ProposalState | null
   proposalAuthor: string
   threshold: number
@@ -27,8 +37,11 @@ export function ProposalSmall({
   abstainCount: number
   againstCount: number
   totalVoters: number
+  currenBlock: number
 }) {
   const router = useRouter()
+  const { countdownString: countdownEnd } = useCountdown(Number(endTime))
+  const { countdownString: countdownStart } = useCountdown(Number(startTime))
 
   const { data: ensName } = useEnsName({
     address: proposalAuthor,
@@ -49,9 +62,19 @@ export function ProposalSmall({
             {ensName || shortenAddress(proposalAuthor)}
           </a>
         </h1>
-        {/* <div className="badge badge-success p-3 font-bold">{status}</div> */}
-        {/* TODO: Badge style */}
-        {status !== null && <Status proposalStatus={getProposalStatus(status)} />}
+        <div className="flex flex-row gap-4">
+          {status !== null && getProposalStatus(status) === 'Active' && (
+            <div className="badge badge-neutral p-3 my-auto font-bold">
+              Ends in {countdownEnd}
+            </div>
+          )}
+          {status !== null && getProposalStatus(status) === 'Pending' && (
+            <div className="badge badge-neutral p-3 my-auto font-bold">
+              Starts in {countdownStart}
+            </div>
+          )}
+          {status !== null && <Status proposalStatus={getProposalStatus(status)} />}
+        </div>
       </div>
       <div className="flex flex-row flex-wrap md:flex-nowrap p-5 gap-5">
         <div className="card flex flex-col w-full md:w-1/4">
