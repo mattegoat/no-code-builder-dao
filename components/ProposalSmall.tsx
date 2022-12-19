@@ -56,6 +56,8 @@ export function ProposalSmall({
           {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
           <a
             href={etherscanLink({ linkType: 'address', hash: proposalAuthor })}
+            target="_blank"
+            rel="noreferrer"
             className="text-secondary text-lg">
             {ensName || shortenAddress(proposalAuthor)}
           </a>

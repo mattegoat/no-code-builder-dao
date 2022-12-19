@@ -15,11 +15,7 @@ function NetLabel({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </main>
         </div>
-        <Footer
-          twitter="test"
-          discord="test"
-          etherscan={etherscanLink({ linkType: 'contract', hash: DAO_ADDRESS })}
-        />
+        <Footer />
       </AppWrapper>
     </div>
   )

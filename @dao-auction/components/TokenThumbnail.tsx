@@ -24,7 +24,11 @@ export default function TokenThumbnail({
 
   return (
     <div className="aspect-square relative w-11/12 m-auto bg-slate-50 rounded-2xl">
-      {thumbnail && <img src={thumbnail} className="w-full h-full inset-0 rounded-2xl" />}
+      {thumbnail ? (
+        <img src={thumbnail} className="w-full h-full inset-0 rounded-2xl" />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

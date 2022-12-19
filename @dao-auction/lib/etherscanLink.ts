@@ -1,9 +1,9 @@
 export function etherscanLink({
   linkType = 'tx',
-  hash
+  hash,
 }: {
-  linkType?: 'tx' | 'address' | 'contract',
+  linkType?: 'tx' | 'address' | 'contract'
   hash?: string
 }) {
-  return `https://etherscan.io/tx/${hash}`
+  return `https://etherscan.io/${linkType}/${hash}`
 }

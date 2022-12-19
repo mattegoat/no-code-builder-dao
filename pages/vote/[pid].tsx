@@ -146,12 +146,16 @@ const ProposalPage: NextPage = () => {
         <h1 className="m-auto text-md lg:text-xl text-left">
           Proposed by{' '}
           <a
+            target="_blank"
+            rel="noreferrer"
             className="text-secondary"
             href={`https://etherscan.io/address/${proposal?.proposer}`}>
             {ensName || shortenAddress(proposal?.proposer)}
           </a>{' '}
           at block{' '}
           <a
+            target="_blank"
+            rel="noreferrer"
             className="text-secondary"
             href={etherscanLink({
               linkType: 'tx',

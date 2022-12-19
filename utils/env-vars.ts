@@ -9,3 +9,4 @@ export const BASE_URL = Config.WEBSITE_URL || ''
 export const OG_IMAGE = `${BASE_URL}/meta-content/og-image.jpg`
 export const FAVICON = `${BASE_URL}/meta-content/favicon.png`
 export const TWITTER_HANDLE = Config.TWITTER_HANDLE
+export const DISCORD_LINK = Config.DISCORD_LINK
