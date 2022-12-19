@@ -4,6 +4,8 @@
 
 import { TWITTER_HANDLE } from './env-vars'
 
+export const AVERAGE_BLOCK_TIME_IN_SECS = 12
+
 export const entries = {
   twitter: `https://twitter.com/${TWITTER_HANDLE}`,
   github: `https://github.com/public-assembly`,

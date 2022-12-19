@@ -10,6 +10,7 @@ import { useDao } from 'context/DaoProvider'
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
 import { ProposalSmall } from '../components/ProposalSmall'
+import { useBlockNumber } from '@usedapp/core'
 
 const DAO: NextPage = () => {
   const { daoInfo } = useDao()
@@ -20,6 +21,7 @@ const DAO: NextPage = () => {
   const { details, transactions, proposals, status, loading } = useProposals({
     collectionAddress: DAO_ADDRESS,
   })
+  const currentBlock = useBlockNumber()
 
   const votes = useUserVotes()
 
@@ -69,7 +71,8 @@ const DAO: NextPage = () => {
               key={index}
               proposalIndex={details.length - index}
               proposalTitle={proposal.description.split('&&')[0]}
-              timeline={new Date(proposal.timeCreated).toLocaleDateString()}
+              endTime={proposal.voteEnd}
+              startTime={proposal.voteStart}
               status={status ? status[index] : null}
               proposalAuthor={proposal.proposer}
               threshold={parseInt(proposal.quorumVotes)}
@@ -81,6 +84,7 @@ const DAO: NextPage = () => {
                 proposals[index]?.abstainVotes +
                 proposals[index]?.forVotes
               }
+              currenBlock={currentBlock || 0}
             />
           ))
         )}
@@ -90,3 +94,6 @@ const DAO: NextPage = () => {
 }
 
 export default DAO
+function dayjs(timestamp: number) {
+  throw new Error('Function not implemented.')
+}
