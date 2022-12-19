@@ -1,10 +1,12 @@
+const Config = require('./config/config.json')
+
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   plugins: [require('@tailwindcss/forms'), require('daisyui')],
   daisyui: {
-    themes: ['cupcake', 'forest'],
+    themes: [Config.theme],
   },
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
