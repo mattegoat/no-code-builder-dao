@@ -18,9 +18,13 @@ export const useCountdown = (endTime: number): Countdown => {
 
   const countdownString = React.useMemo(() => {
     const difference = Math.abs(end - now)
-    const { days, hours, minutes, seconds } = intervalToDuration({ start: 0, end: difference })
+    if (isNaN(difference)) return ''
+    const { days, hours, minutes, seconds } = intervalToDuration({
+      start: 0,
+      end: difference ?? Date.now() * 1000,
+    })
     return `${days && days > 0 ? days + 'd ' : ''}${hours}h ${minutes}m ${seconds}s`
-  }, [now])
+  }, [now, end])
 
   return {
     isEnded: now >= end,
