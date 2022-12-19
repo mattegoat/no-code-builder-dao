@@ -3,12 +3,12 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useState } from 'react'
 import Image from 'next/image'
-import logo from '../public/favicon.png'
 import { pages } from '../config.js'
 import { useTreasuryBalance } from '@dao-auction/hooks/useTreasuryBalance'
 import { useAllAddresses } from '@dao-auction/hooks/useAllAddresses'
 import { ethers } from 'ethers'
 import { Connect } from './elements'
+import { LOGO_URL } from 'utils'
 
 export function Header({ daoAddress }: { daoAddress: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -23,7 +23,7 @@ export function Header({ daoAddress }: { daoAddress: string }) {
           className="flex items-center flex-shrink-0 text-white mr-6"
           style={{ cursor: 'pointer' }}>
           <Link href="/">
-            <Image src={logo} alt="logo" />
+            <img src={LOGO_URL} alt="logo" width="70" />
           </Link>
         </div>
         <div className="block lg:hidden">
