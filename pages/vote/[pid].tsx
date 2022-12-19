@@ -227,12 +227,12 @@ const ProposalPage: NextPage = () => {
                 : 'n/a'}
             </h1>
           </div>
-          <div className="flex flex-col gap-4 px-10 py-4 outline w-full md:w-1/2 bg-neutral card">
+          <div className="flex flex-col gap-4 px-10 py-4 outline w-full md:w-1/2 bg-neutral card opacity-40">
             <h1 className="font-bold text-xl pb-2">% of Treasury</h1>
             <div
               className="radial-progress text-secondary h-13 w-13 ml-auto"
-              style={{ '--value': 70 } as React.CSSProperties}>
-              70%
+              style={{ '--value': 20 } as React.CSSProperties}>
+              soon
             </div>
           </div>
         </div>
