@@ -50,7 +50,7 @@ export function ProposalSmall({
   }
   return (
     <div className="w-full card mt-4 bg-neutral ">
-      <div className="p-5 flex flex-col md:flex-row card bg-neutral-focus justify-between gap-3">
+      <div className="p-5 flex flex-col md:flex-row card bg-neutral-focus w-full gap-3">
         <h1 className="text-bold text-xl pr-3 text-neutral-content">{proposalIndex}</h1>
         <h1 className="font-extrabold text-neutral-content	 text-xl pr-3">
           {proposalTitle} <span className="font-semibold text-lg">by</span>{' '}
@@ -60,7 +60,7 @@ export function ProposalSmall({
             {ensName || shortenAddress(proposalAuthor)}
           </a>
         </h1>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 ml-auto">
           {status !== null && getProposalStatus(status) === 'Active' && (
             <div className="badge badge-neutral p-3 my-auto font-bold">
               Ends in {countdownEnd}
