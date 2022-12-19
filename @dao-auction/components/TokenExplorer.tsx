@@ -2,7 +2,6 @@ import React from 'react'
 import { useActiveAuction } from '../hooks/useActiveAuction'
 import CurrentAuction from './CurrentAuction'
 import TokenRenderer from './TokenRenderer'
-import CircleArrow from './CircleArrow'
 
 export interface TokenExplorerProps extends React.HTMLProps<HTMLDivElement> {
   /**
