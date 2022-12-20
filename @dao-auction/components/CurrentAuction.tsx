@@ -189,10 +189,10 @@ export default function CurrentAuction({
               </div>
             )}
           {/* TODO button if not settle && auction ended + hide bids if not settled*/}
-          {isConnected && auctionEnded && (
+          {auctionEnded && (
             <button
               className="btn btn-accent btn-outline"
-              disabled={!settle}
+              disabled={!settle || !isConnected}
               onClick={() => settle?.()}>
               {isSettling ? 'Settling..' : 'Settle Auction'}
             </button>
